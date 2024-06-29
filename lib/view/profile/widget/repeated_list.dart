@@ -23,6 +23,7 @@ class RoundedLisTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {},
       child: Padding(
@@ -42,7 +43,7 @@ class RoundedLisTile extends StatelessWidget {
                   ),
                 ),
               ),
-              title: Text(title, style: AppThemes.profileRepeatedListTileTitle),
+              title: Text(title, style: AppThemes.profileRepeatedListTileTitle(width)),
               trailing: trailing),
         ),
       ),

@@ -18,9 +18,9 @@ dependencies:
   cloud_firestore: ^5.0.1
 
   cupertino_icons: ^1.0.2
-  font_awesome_flutter: ^9.2.0
+  font_awesome_flutter: ^10.7.0
   custom_navigation_bar: ^0.8.2
-  simple_animations: ^4.0.1
+  simple_animations: ^5.0.2
   supercharged: ^2.1.1
 
 dev_dependencies:
@@ -30,3 +30,18 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
+        - asset: assets/fonts/OpenSans-Bold.ttf
+          weight: 700
+    - family: Quicksand
+      fonts:
+        - asset: assets/fonts/Quicksand-Regular.ttf
+        - asset: assets/fonts/Quicksand-Bold.ttf
+          weight: 700

@@ -53,7 +53,7 @@ class details extends State<DetailsBody> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Column(
                 children: [
-                  nameAndPrice(),
+                  nameAndPrice(width),
                   SizedBox(height: 10),
                   shoeInfo(width, height),
                   SizedBox(
@@ -362,8 +362,8 @@ class details extends State<DetailsBody> {
         padding: EdgeInsets.only(right: 280),
         height: height / 26,
         child: FittedBox(
-            child: Text('MORE DETAILS', style: AppThemes.detailsMoreText)),
-      ),
+            child: Text('MORE DETAILS', style: AppThemes.detailsMoreText(width)),
+      ),)
     );
   }
 
@@ -382,7 +382,7 @@ class details extends State<DetailsBody> {
   }
 
   //Name And Price Text Components
-  nameAndPrice() {
+  nameAndPrice(width) {
     return FadeAnimation(
       delay: 1,
       child: Row(
@@ -397,7 +397,7 @@ class details extends State<DetailsBody> {
           ),
           Expanded(child: Container()),
           Text('\$${widget.model.price.toStringAsFixed(2)}',
-              style: AppThemes.detailsProductPrice),
+              style: AppThemes.detailsProductPrice(width)),
         ],
       ),
     );

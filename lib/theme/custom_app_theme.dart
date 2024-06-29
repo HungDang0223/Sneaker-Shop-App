@@ -3,56 +3,63 @@ import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 
 class AppThemes {
-  AppThemes._();
+
+  static TextStyle hightlightText(double w) => TextStyle(
+    fontSize: w/30,
+    fontWeight: FontWeight.w300,
+    color: AppConstantsColor.hightlightTextColor
+  );
 
   /// Home
-  static const TextStyle homeAppBar = TextStyle(
-    fontSize: 30,
+  static TextStyle homeAppBar(double w) => TextStyle(
+    fontSize: w/12,
     fontWeight: FontWeight.bold,
     color: AppConstantsColor.darkTextColor,
   );
-  static const TextStyle homeProductName = TextStyle(
+  static TextStyle homeProductName(double w) => TextStyle(
     color: AppConstantsColor.lightTextColor,
-    fontSize: 17,
+    fontSize: w/20,
     fontWeight: FontWeight.w500,
   );
-  static const TextStyle homeProductModel = TextStyle(
+  static TextStyle homeProductModel(double w) => TextStyle(
       color: AppConstantsColor.lightTextColor,
       fontWeight: FontWeight.bold,
-      fontSize: 22);
-  static const TextStyle homeProductPrice = TextStyle(
+      fontSize: w/16);
+  static TextStyle homeProductPrice(double w) => TextStyle(
       color: AppConstantsColor.lightTextColor,
       fontWeight: FontWeight.w400,
-      fontSize: 16);
-  static const TextStyle homeMoreText = TextStyle(
-      fontSize: 22,
+      fontSize: w/24);
+  static TextStyle homeMoreText(double w) => TextStyle(
+      fontSize: w/15,
       color: AppConstantsColor.darkTextColor,
       fontWeight: FontWeight.bold);
-  static const TextStyle homeGridNewText = TextStyle(
+  static TextStyle homeGridNewText(double w) => TextStyle(
     color: AppConstantsColor.lightTextColor,
     fontWeight: FontWeight.w500,
-    fontSize: 18,
+    fontSize: w/40,
   );
-  static const TextStyle homeGridNameAndModel = TextStyle(
+  static TextStyle homeGridNameAndModel(double w) => TextStyle(
+    fontSize: w/30,
     color: AppConstantsColor.darkTextColor,
     fontWeight: FontWeight.bold,
   );
-  static const TextStyle homeGridPrice = TextStyle(
+  static TextStyle homeGridPrice(double w) => TextStyle(
+    fontSize: w/32,
     color: AppConstantsColor.darkTextColor,
     fontWeight: FontWeight.bold,
   );
 
   /// Details
-  static const TextStyle detailsAppBar = TextStyle(
+  static TextStyle detailsAppBar(double w) => TextStyle(
     color: AppConstantsColor.lightTextColor,
     fontWeight: FontWeight.w600,
-    fontSize: 22,
+    fontSize: w/15,
   );
-  static const TextStyle detailsMoreText = TextStyle(
+  static TextStyle detailsMoreText(double w) => TextStyle(
       fontWeight: FontWeight.w500,
       decoration: TextDecoration.underline,
       height: 1);
-  static const TextStyle detailsProductPrice = TextStyle(
+  static TextStyle detailsProductPrice(double w) => TextStyle(
       fontWeight: FontWeight.w500,
       decoration: TextDecoration.underline,
       height: 1);
@@ -61,49 +68,82 @@ class AppThemes {
 
   /// Bag
 
-  static const TextStyle bagEmptyListTitle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.w500);
-  static const TextStyle bagEmptyListSubTitle =
-      TextStyle(fontSize: 17, fontWeight: FontWeight.w400);
-  static const TextStyle bagTitle = TextStyle(
+  static TextStyle bagEmptyListTitle(double w) =>
+      TextStyle(fontSize: w/10, fontWeight: FontWeight.w500);
+  static TextStyle bagEmptyListSubTitle(double w) =>
+      TextStyle(fontSize: w/20, fontWeight: FontWeight.w400);
+  static TextStyle bagTitle(double w) => TextStyle(
     fontWeight: FontWeight.bold,
-    fontSize: 35,
+    fontSize: w/10,
   );
-  static const TextStyle bagTotal = TextStyle(
+  static TextStyle bagTotal(double w) => TextStyle(
     fontWeight: FontWeight.bold,
-    fontSize: 35,
+    fontSize: w/8,
   );
-  static const TextStyle bagProductModel = TextStyle(
-    fontSize: 17,
+  static TextStyle bagProductModel(double w) => TextStyle(
+    fontSize: w/20,
     fontWeight: FontWeight.w500,
     color: AppConstantsColor.darkTextColor,
   );
-  static const TextStyle bagProductPrice = TextStyle(
-    fontSize: 20,
+  static TextStyle bagProductPrice(double w) => TextStyle(
+    fontSize: w/20,
     fontWeight: FontWeight.bold,
     color: AppConstantsColor.darkTextColor,
   );
-  static const TextStyle bagProductNumOfShoe =
-      TextStyle(fontSize: 17, fontWeight: FontWeight.bold);
-  static const TextStyle bagTotalPrice = TextStyle(
+  static TextStyle bagProductNumOfShoe(double w) =>
+      TextStyle(fontSize: w/20, fontWeight: FontWeight.bold);
+  static TextStyle bagTotalPrice(double w) => TextStyle(
       color: AppConstantsColor.darkTextColor,
       fontWeight: FontWeight.w600,
-      fontSize: 16);
-  static const TextStyle bagSumOfItemOnBag = TextStyle(
+      fontSize: w/18);
+  static TextStyle bagSumOfItemOnBag(double w) => TextStyle(
       color: AppConstantsColor.darkTextColor,
       fontWeight: FontWeight.bold,
-      fontSize: 20);
+      fontSize: w/20);
 
   /// Profile
-  static const TextStyle profileAppBarTitle = TextStyle(
-    fontSize: 20,
+  static TextStyle profileAppBarTitle(double w) => TextStyle(
+    fontSize: w/20,
     fontWeight: FontWeight.bold,
     color: AppConstantsColor.darkTextColor,
   );
-  static const TextStyle profileRepeatedListTileTitle = TextStyle(
-      fontWeight: FontWeight.bold,
-      color: AppConstantsColor.darkTextColor,
-      fontSize: 18);
-  static const TextStyle profileDevName =
-      TextStyle(fontSize: 22, fontWeight: FontWeight.w800);
+  static TextStyle profileRepeatedListTileTitle(double w) => TextStyle(
+    fontWeight: FontWeight.bold,
+    color: AppConstantsColor.darkTextColor,
+    fontSize: w/13);
+  static TextStyle profileDevName(double w) =>
+    TextStyle(fontSize: w/15, fontWeight: FontWeight.w800);
+
+// Log in, out
+  static TextStyle logAppBarTitle(double w) => TextStyle(
+    fontSize: w/20,
+    color: AppConstantsColor.hightlightTextColor,
+    fontWeight: FontWeight.w400
+  );
+  static TextStyle logTitle(double w) => TextStyle(
+    fontSize: w/12,
+    color: AppConstantsColor.darkTextColor,
+    fontWeight: FontWeight.w800
+  );
+  static TextStyle logNormalText(double w) => TextStyle(
+    fontSize: w/17,
+    color: AppConstantsColor.darkTextColor,
+    fontWeight: FontWeight.w800
+  );
+  // static TextStyle lightText(double w) => TextStyle(
+  //   fontSize: w/24,
+  //   color: AppConstantsColor.hightlightTextColor,
+  //   fontWeight: FontWeight.w300
+  // );
+  static TextStyle logButton(double w) => TextStyle(
+    fontSize: w/15,
+    color: AppConstantsColor.whiteTextColor,
+    fontWeight: FontWeight.w600
+  );
+// for all
+  static TextStyle lightText(double w) => TextStyle(
+    fontSize: w/25,
+    color: AppConstantsColor.darkTextColor,
+    fontWeight: FontWeight.w400
+  );
 }

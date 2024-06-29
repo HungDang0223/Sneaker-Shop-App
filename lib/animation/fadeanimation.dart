@@ -1,15 +1,10 @@
-// Packages you must install ==>  simple_animations: ^4.0.1 || supercharged: ^2.1.1
-
-
-  // ignore_for_file: prefer_const_constructors_in_immutables, use_key_in_widget_constructors
-  
+// simple animation lastest version
 import 'package:flutter/material.dart';
-import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
-
-enum AniProps { opacity, translateY }
+import 'package:simple_animations/simple_animations.dart';
 
 class FadeAnimation extends StatelessWidget {
+
   final double delay;
   final Widget child;
 
@@ -17,21 +12,22 @@ class FadeAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tween = MultiTween<AniProps>()
-      ..add(AniProps.opacity, 0.0.tweenTo(1.0), 500.milliseconds)
-      ..add(AniProps.translateY, (-30.0).tweenTo(0.0), 500.milliseconds,
-          Curves.easeOut);
+    final opacity = MovieTweenProperty<double>();
+    final translateY = MovieTweenProperty<double>();
+    final tween = MovieTween()
+      ..tween<double>(opacity, Tween(begin: 0.0, end: 1.0), duration: 500.milliseconds)
+      ..tween<double>(translateY, Tween(begin: -30.0, end: 0), duration: 500.milliseconds, curve: Curves.easeIn);
 
 
-    return PlayAnimation<MultiTweenValues<AniProps>>(
+    return PlayAnimationBuilder<Movie>(
       delay: Duration(milliseconds: (500 * delay).round()),
       duration: tween.duration,
       tween: tween,
       child: child,
-      builder: (context, child, value) => Opacity(
-        opacity: value.get(AniProps.opacity),
+      builder: (context, value, child) => Opacity(
+        opacity: opacity.from(value),
         child: Transform.translate(
-            offset: Offset(0, value.get(AniProps.translateY)), child: child),
+            offset: Offset(0, translateY.from(value)), child: child),
       ),
     );
   }

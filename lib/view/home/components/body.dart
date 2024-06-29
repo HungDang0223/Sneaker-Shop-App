@@ -25,15 +25,18 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return Column(
-      children: [
-        topCategoriesWidget(width, height),
-        SizedBox(height: 10),
-        middleCategoriesWidget(width, height),
-        SizedBox(height: 5),
-        moreTextWidget(),
-        lastCategoriesWidget(width, height),
-      ],
+    return Container(
+      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+      child: Column(
+        children: [
+          topCategoriesWidget(width, height),
+          SizedBox(height: 10),
+          middleCategoriesWidget(width, height),
+          SizedBox(height: 5),
+          moreTextWidget(width),
+          lastCategoriesWidget(width, height),
+        ],
+      ),
     );
   }
 
@@ -42,9 +45,9 @@ class _BodyState extends State<Body> {
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.all(10),
-          width: width,
-          height: height / 18,
+          padding: EdgeInsets.symmetric(vertical: 10),
+          width: width - 20,
+          height: height / 14,
           child: ListView.builder(
               physics: BouncingScrollPhysics(),
               itemCount: categories.length,
@@ -61,7 +64,7 @@ class _BodyState extends State<Body> {
                     child: Text(
                       categories[index],
                       style: TextStyle(
-                          fontSize: selectedIndexOfCategory == index ? 21 : 18,
+                          fontSize: selectedIndexOfCategory == index ? width/16 : width/18,
                           color: selectedIndexOfCategory == index
                               ? AppConstantsColor.darkTextColor
                               : AppConstantsColor.unSelectedTextColor,
@@ -82,44 +85,8 @@ class _BodyState extends State<Body> {
     return Row(
       children: [
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          width: width / 16,
-          height: height / 2.7,
-          child: RotatedBox(
-            quarterTurns: -1,
-            child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: featured.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedIndexOfFeatured = index;
-                      });
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Text(
-                        featured[index],
-                        style: TextStyle(
-                            fontSize:
-                                selectedIndexOfFeatured == index ? 19 : 17,
-                            color: selectedIndexOfFeatured == index
-                                ? AppConstantsColor.darkTextColor
-                                : AppConstantsColor.unSelectedTextColor,
-                            fontWeight: selectedIndexOfFeatured == index
-                                ? FontWeight.bold
-                                : FontWeight.w400),
-                      ),
-                    ),
-                  );
-                }),
-          ),
-        ),
-        Container(
-          width: width / 1.2,
-          height: height / 2.4,
+          width: width - 20,
+          height: height / 2.6,
           child: ListView.builder(
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
@@ -144,28 +111,30 @@ class _BodyState extends State<Body> {
                   child: Stack(
                     children: [
                       Container(
-                        width: width / 1.81,
+                        width: width / 1.7,
                         decoration: BoxDecoration(
                           color: model.modelColor,
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(25),
                         ),
                       ),
                       Positioned(
-                        left: 10,
+                        top: 5,
+                        left: width/40,
                         child: FadeAnimation(
                           delay: 1,
                           child: Row(
                             children: [
                               Text(model.name,
-                                  style: AppThemes.homeProductName),
+                                  style: AppThemes.homeProductName(width)),
                               SizedBox(
-                                width: 120,
+                                width: width/2.9,
                               ),
                               IconButton(
                                 onPressed: () {},
                                 icon: Icon(
                                   Icons.favorite_border,
                                   color: Colors.white,
+                                  size: width/20,
                                 ),
                               ),
                             ],
@@ -173,26 +142,26 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                       Positioned(
-                        top: 45,
+                        top: width/10,
                         left: 10,
                         child: FadeAnimation(
                           delay: 1.5,
                           child: Text(model.model,
-                              style: AppThemes.homeProductModel),
+                              style: AppThemes.homeProductModel(width)),
                         ),
                       ),
                       Positioned(
-                        top: 80,
+                        top: width/5.5,
                         left: 10,
                         child: FadeAnimation(
                           delay: 2,
                           child: Text("\$${model.price.toStringAsFixed(2)}",
-                              style: AppThemes.homeProductPrice),
+                              style: AppThemes.homeProductPrice(width)),
                         ),
                       ),
                       Positioned(
-                        left: 20,
-                        top: 60,
+                        left: 10,
+                        top: width/3.5,
                         child: FadeAnimation(
                           delay: 2,
                           child: Hero(
@@ -200,8 +169,8 @@ class _BodyState extends State<Body> {
                             child: RotationTransition(
                               turns: AlwaysStoppedAnimation(-30 / 360),
                               child: Container(
-                                width: 250,
-                                height: 230,
+                                width: width/1.5,
+                                height: height/5,
                                 child: Image(
                                   image: AssetImage(model.imgAddress),
                                 ),
@@ -211,14 +180,14 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                       Positioned(
-                        bottom: 10,
-                        left: 170,
+                        bottom: 0,
+                        left: width/2.1,
                         child: IconButton(
                           onPressed: () {},
                           icon: FaIcon(
                             FontAwesomeIcons.arrowCircleRight,
                             color: Colors.white,
-                            size: 25,
+                            size: width/18,
                           ),
                         ),
                       )
@@ -234,19 +203,28 @@ class _BodyState extends State<Body> {
   }
 
 // More Text Widget Components
-  moreTextWidget() {
+  moreTextWidget(width) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin: EdgeInsets.symmetric(horizontal: 6),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Text("More", style: AppThemes.homeMoreText),
-          Expanded(child: Container()),
-          IconButton(
-              onPressed: () {},
-              icon: FaIcon(
-                CupertinoIcons.arrow_right,
-                size: 27,
-              ))
+          Text("New Product", style: AppThemes.homeMoreText(width)),
+          Spacer(),
+          Row(
+            children: [
+              Text("Show all", style: AppThemes.hightlightText(width),),
+              IconButton(
+                onPressed: () {},
+                icon: FaIcon(
+                  CupertinoIcons.arrow_right,
+                  size: 14,
+                  color: Color(0xfffd6f3e),
+                )
+              )
+            ],
+          )
         ],
       ),
     );
@@ -256,7 +234,7 @@ class _BodyState extends State<Body> {
   lastCategoriesWidget(width, height) {
     return Container(
       width: width,
-      height: height / 4,
+      height: height / 4.2,
       child: ListView.builder(
           physics: BouncingScrollPhysics(),
           itemCount: availableShoes.length,
@@ -277,8 +255,7 @@ class _BodyState extends State<Body> {
               },
               child: Container(
                 margin: EdgeInsets.all(10),
-                width: width / 2.24,
-                height: height / 4.3,
+                width: width / 2.3,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
@@ -286,91 +263,82 @@ class _BodyState extends State<Body> {
                 child: Stack(
                   children: [
                     Positioned(
-                      left: 5,
+                      left: -20,
+                      top: 4,
                       child: FadeAnimation(
                         delay: 1,
-                        child: Container(
-                          width: width / 13,
-                          height: height / 10,
-                          color: Colors.red,
-                          child: RotatedBox(
-                              quarterTurns: -1,
-                              child: Center(
-                                  child: FadeAnimation(
-                                delay: 1.5,
+                        child: RotationTransition(
+                          turns: AlwaysStoppedAnimation(-45/360),
+                          child: Center(
+                            child: FadeAnimation(
+                              delay: 1.5,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 3),
+                                alignment: Alignment.center,
+                                width: width/6,
+                                color: Colors.red,
                                 child: Text("NEW",
-                                    style: AppThemes.homeGridNewText),
-                              ))),
-                        ),
+                                  style: AppThemes.homeGridNewText(width)),
+                              )
+                          ))),
                       ),
                     ),
                     Positioned(
-                      left: 140,
+                      right: 0,
                       child: IconButton(
                         onPressed: () {},
                         icon: Icon(
                           Icons.favorite_border,
-                          color: AppConstantsColor.darkTextColor,
+                          color: AppConstantsColor.loveIconColor,
                         ),
                       ),
                     ),
                     Positioned(
-                      top: 26,
-                      left: 25,
-                      child: FadeAnimation(
-                        delay: 1.5,
-                        child: RotationTransition(
-                          turns: AlwaysStoppedAnimation(-15 / 360),
-                          child: Container(
-                            width: width / 3,
-                            height: height / 9,
-                            child: Hero(
-                              tag: model.model,
-                              child: Image(
-                                image: AssetImage(model.imgAddress),
+                      top: height/25,
+                      left: 15,
+                      child: Column(
+                        children: [
+                          FadeAnimation(
+                            delay: 1.5,
+                            child: RotationTransition(
+                              turns: AlwaysStoppedAnimation(-15 / 360),
+                              child: Container(
+                                width: width / 3,
+                                height: height / 9,
+                                child: Hero(
+                                  tag: model.model,
+                                  child: Image(
+                                    image: AssetImage(model.imgAddress),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 124,
-                      left: 45,
-                      child: FadeAnimation(
-                        delay: 2,
-                        child: Container(
-                          width: width / 4,
-                          height: height / 42,
-                          child: FittedBox(
-                            child: Text("${model.name} ${model.model}",
-                                style: AppThemes.homeGridNameAndModel),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 145,
-                      left: 45,
-                      child: FadeAnimation(
-                        delay: 2.2,
-                        child: Container(
-                          width: width / 4,
-                          height: height / 42,
-                          child: FittedBox(
-                            child: Text(
-                              "\$${model.price.toStringAsFixed(2)}",
-                              style: AppThemes.homeGridPrice
+                          FadeAnimation(
+                            delay: 2,
+                            child: FittedBox(
+                              child: Text("${model.name} ${model.model}",
+                                  style: AppThemes.homeGridNameAndModel(width)),
                             ),
                           ),
-                        ),
-                      ),
-                    )
+                          FadeAnimation(
+                            delay: 2.2,
+                            child: FittedBox(
+                              child: Text(
+                                "\$${model.price.toStringAsFixed(2)}",
+                                style: AppThemes.homeGridPrice(width)
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ),
                   ],
                 ),
               ),
             );
-          }),
+          }
+        ),
     );
   }
 }

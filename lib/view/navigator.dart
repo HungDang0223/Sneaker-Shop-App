@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_final_fields, prefer_const_constructors, use_key_in_widget_constructors
-
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,12 +40,13 @@ class _MainNavigatorState extends State<MainNavigator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        children: _screen,
-        onPageChanged: _onPageChanged,
-        physics: NeverScrollableScrollPhysics(),
-      ),
+      body: _screen[_selectedIndex],
+      // PageView(
+      //   controller: _pageController,
+      //   children: _screen,
+      //   onPageChanged: _onPageChanged,
+      //   physics: NeverScrollableScrollPhysics(),
+      // ),
       bottomNavigationBar: CustomNavigationBar(
         iconSize: 27.0,
         bubbleCurve: Curves.linear,
@@ -67,7 +66,7 @@ class _MainNavigatorState extends State<MainNavigator> {
             icon: Icon(CupertinoIcons.person),
           ),
         ],
-        onTap: _onItemTapped,
+        onTap: _onPageChanged,
         currentIndex: _selectedIndex,
       ),
     );

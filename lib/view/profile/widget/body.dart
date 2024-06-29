@@ -63,7 +63,7 @@ class _BodyProfileState extends State<BodyProfile> {
             children: [
               Text(
                 "Amir.H Bayat",
-                style: AppThemes.profileDevName
+                style: AppThemes.profileDevName(width)
               ),
               Text(
                 "Flutter Developer",

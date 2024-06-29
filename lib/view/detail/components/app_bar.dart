@@ -5,13 +5,14 @@ import 'package:sneaker_shop_app/theme/custom_app_theme.dart';
 import 'package:sneaker_shop_app/utils/constants.dart';
 
 PreferredSize? customAppBarDe(ctx) {
+  final width = MediaQuery.of(ctx).size.width;
   return PreferredSize(
     preferredSize: const Size.fromHeight(60),
     child: AppBar(
       elevation: 0,
       backgroundColor: Colors.transparent,
       centerTitle: true,
-      title: Text("Nike", style: AppThemes.detailsAppBar),
+      title: Text("Nike", style: AppThemes.detailsAppBar(width)),
       leading: IconButton(
         onPressed: () {
           Navigator.pop(ctx);

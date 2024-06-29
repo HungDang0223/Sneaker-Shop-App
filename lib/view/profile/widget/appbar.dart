@@ -5,7 +5,8 @@ import 'package:sneaker_shop_app/theme/custom_app_theme.dart';
 
 import '../../../utils/constants.dart';
 
-PreferredSize? customAppBarProfile() {
+PreferredSize? customAppBarProfile(ctx) {
+  final width = MediaQuery.of(ctx).size.width;
   return PreferredSize(
     preferredSize: Size.fromHeight(60),
     child: AppBar(
@@ -19,7 +20,7 @@ PreferredSize? customAppBarProfile() {
         ),
         child: Text(
           "My Profile",
-          style: AppThemes.profileAppBarTitle,
+          style: AppThemes.profileAppBarTitle(width),
         ),
       ),
       actions: const [

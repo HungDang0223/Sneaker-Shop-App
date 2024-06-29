@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_brace_in_string_interps, sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
 import 'package:sneaker_shop_app/theme/custom_app_theme.dart';
 
@@ -59,10 +57,10 @@ class _BodyBagViewState extends State<BodyBagView>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("My Bag", style: AppThemes.bagTitle),
+            Text("My Bag", style: AppThemes.bagTitle(width)),
             Text(
               "Total ${lengthsOfItemsOnBag} Items",
-              style: AppThemes.bagTotalPrice,
+              style: AppThemes.bagTotalPrice(width),
             ),
           ],
         ),
@@ -148,12 +146,12 @@ class _BodyBagViewState extends State<BodyBagView>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(currentBagItem.model,
-                              style: AppThemes.bagProductModel),
+                              style: AppThemes.bagProductModel(width)),
                           SizedBox(
                             height: 4,
                           ),
                           Text("\$${currentBagItem.price}",
-                              style: AppThemes.bagProductPrice),
+                              style: AppThemes.bagProductPrice(width)),
                           SizedBox(
                             height: 10,
                           ),
@@ -183,7 +181,7 @@ class _BodyBagViewState extends State<BodyBagView>
                               SizedBox(
                                 width: 10,
                               ),
-                              Text("1", style: AppThemes.bagProductNumOfShoe),
+                              Text("1", style: AppThemes.bagProductNumOfShoe(width)),
                               SizedBox(
                                 width: 10,
                               ),
@@ -228,9 +226,9 @@ class _BodyBagViewState extends State<BodyBagView>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("TOTAL", style: AppThemes.bagTotalPrice),
+                Text("TOTAL", style: AppThemes.bagTotalPrice(width)),
                 Text("\$${AppMethods.sumOfItemsOnBag()}",
-                    style: AppThemes.bagSumOfItemOnBag),
+                    style: AppThemes.bagSumOfItemOnBag(width)),
               ],
             ),
           ),

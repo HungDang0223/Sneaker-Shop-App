@@ -2,6 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sneaker_shop_app/view/bag/bag_screen.dart';
+import 'package:sneaker_shop_app/view/home/home_screen.dart';
+import 'package:sneaker_shop_app/view/log/log_screen.dart';
 
 import 'view/navigator.dart';
 
@@ -34,7 +37,7 @@ class MainApp extends StatelessWidget {
         fontFamily: 'Quicksand',
       ),
       title: 'Sneakers Shop App',
-      home: MainNavigator(),
+      home: LogScreen(),
     );
   }
 }
