@@ -2,10 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sneaker_shop_app/view/bag/bag_screen.dart';
-import 'package:sneaker_shop_app/view/home/home_screen.dart';
-import 'package:sneaker_shop_app/view/log/log_screen.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'view/log/log_screen.dart';
 import 'view/navigator.dart';
 
 Future<void> main() async {
@@ -22,8 +20,27 @@ Future<void> main() async {
           measurementId: "G-8DZWN0LKXR"
         )
     );
-  } else Firebase.initializeApp();
-  runApp(const MainApp());
+  } else {
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+      apiKey: 'AIzaSyDeXsyybNXz0f5iDNo44SQC1XAgi8qj03c',
+      appId: '1:45066048261:android:accdbec02582b344875d6c',
+      messagingSenderId: 'sendid',
+      projectId: 'sneaker-shoes-shop',
+      storageBucket: 'myapp-b9yt18.appspot.com',
+    )
+  );
+  }
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  bool isLogged = preferences.containsKey('uid');
+  runApp(GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: 'Quicksand',
+      ),
+      title: 'Sneakers Shop App',
+      home: isLogged ? MainNavigator() : LogScreen(),
+  ));
 }
 
 class MainApp extends StatelessWidget {
@@ -37,7 +54,6 @@ class MainApp extends StatelessWidget {
         fontFamily: 'Quicksand',
       ),
       title: 'Sneakers Shop App',
-      home: LogScreen(),
     );
   }
 }

@@ -1,15 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, must_be_immutable, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
-
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../animation/fadeanimation.dart';
 import '../../../../../utils/app_methods.dart';
 import '../../../../../utils/constants.dart';
-import '../../../../../models/shoe_model.dart';
+import '../../../data/models/shoe_model.dart';
 import '../../../data/dummy_data.dart';
-import '../../../models/models.dart';
+import '../../../data/models/models.dart';
 import '../../../theme/custom_app_theme.dart';
 
 class DetailsBody extends StatefulWidget {
@@ -22,7 +18,6 @@ class DetailsBody extends StatefulWidget {
 }
 
 class details extends State<DetailsBody> {
-  bool _isSelectedCountry = false;
   int? _isSelectedSize;
 
   @override
@@ -60,7 +55,6 @@ class details extends State<DetailsBody> {
                     height: 5,
                   ),
                   moreDetailsText(width, height),
-                  sizeTextAndCountry(width, height),
                   SizedBox(
                     height: 10,
                   ),
@@ -216,36 +210,10 @@ class details extends State<DetailsBody> {
         child: Row(
           children: [
             Container(
-              width: width / 4.5,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.grey, width: 1)),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Try it",
-                      style: TextStyle(fontWeight: FontWeight.w800),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    RotatedBox(
-                        quarterTurns: -1,
-                        child: FaIcon(FontAwesomeIcons.shoePrints))
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Container(
-              width: width / 1.5,
+              width: width - 16,
               child: ListView.builder(
                   physics: BouncingScrollPhysics(),
-                  itemCount: 4,
+                  itemCount: sizes.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (ctx, index) {
                     return GestureDetector(
@@ -256,8 +224,8 @@ class details extends State<DetailsBody> {
                       },
                       child: Container(
                         margin: EdgeInsets.only(right: 5),
-                        width: width / 4.4,
-                        height: height / 13,
+                        width: width / 5,
+                        height: height / 16,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
@@ -289,71 +257,6 @@ class details extends State<DetailsBody> {
       ),
     );
   }
-
-  //Size Text And Country Button Components
-  sizeTextAndCountry(width, height) {
-    return FadeAnimation(
-      delay: 2.5,
-      child: Row(
-        children: [
-          Text(
-            "Size",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: AppConstantsColor.darkTextColor,
-              fontSize: 22,
-            ),
-          ),
-          Expanded(
-            child: Container(),
-          ),
-          Container(
-            width: width / 9,
-            child: TextButton(
-              onPressed: () {
-                setState(() {
-                  _isSelectedCountry = false;
-                });
-              },
-              child: Text(
-                "UK",
-                style: TextStyle(
-                  fontWeight:
-                      _isSelectedCountry ? FontWeight.w400 : FontWeight.bold,
-                  color: _isSelectedCountry
-                      ? Colors.grey
-                      : AppConstantsColor.darkTextColor,
-                  fontSize: 19,
-                ),
-              ),
-            ),
-          ),
-          Container(
-            width: width / 5,
-            child: TextButton(
-              onPressed: () {
-                setState(() {
-                  _isSelectedCountry = true;
-                });
-              },
-              child: Text(
-                "USA",
-                style: TextStyle(
-                  fontWeight:
-                      _isSelectedCountry ? FontWeight.bold : FontWeight.w400,
-                  color: _isSelectedCountry
-                      ? AppConstantsColor.darkTextColor
-                      : Colors.grey,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   //more details Text Components
   moreDetailsText(width, height) {
     return FadeAnimation(
@@ -373,7 +276,7 @@ class details extends State<DetailsBody> {
       delay: 1.5,
       child: Container(
         width: width,
-        height: height / 9,
+        height: height / 8,
         child: Text(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt laoreet enim, eget sodales ligula semper at. Sed id aliquet eros, nec vestibulum felis. Nunc maximus aliquet aliquam. Quisque eget sapien at velit cursus tincidunt. Duis tempor lacinia erat eget fermentum.",
             style: AppThemes.detailsProductDescriptions),

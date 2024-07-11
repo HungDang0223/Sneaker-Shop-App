@@ -110,15 +110,15 @@ class AppThemes {
   static TextStyle profileRepeatedListTileTitle(double w) => TextStyle(
     fontWeight: FontWeight.bold,
     color: AppConstantsColor.darkTextColor,
-    fontSize: w/13);
+    fontSize: w/15);
   static TextStyle profileDevName(double w) =>
-    TextStyle(fontSize: w/15, fontWeight: FontWeight.w800);
+    TextStyle(fontSize: w/20, fontWeight: FontWeight.w700);
 
 // Log in, out
   static TextStyle logAppBarTitle(double w) => TextStyle(
-    fontSize: w/20,
+    fontSize: w/18,
     color: AppConstantsColor.hightlightTextColor,
-    fontWeight: FontWeight.w400
+    fontWeight: FontWeight.w500
   );
   static TextStyle logTitle(double w) => TextStyle(
     fontSize: w/12,
@@ -130,20 +130,31 @@ class AppThemes {
     color: AppConstantsColor.darkTextColor,
     fontWeight: FontWeight.w800
   );
-  // static TextStyle lightText(double w) => TextStyle(
-  //   fontSize: w/24,
-  //   color: AppConstantsColor.hightlightTextColor,
-  //   fontWeight: FontWeight.w300
-  // );
   static TextStyle logButton(double w) => TextStyle(
-    fontSize: w/15,
+    fontSize: w/16,
     color: AppConstantsColor.whiteTextColor,
     fontWeight: FontWeight.w600
   );
 // for all
-  static TextStyle lightText(double w) => TextStyle(
-    fontSize: w/25,
+  static TextStyle appBarText(double w) => TextStyle(
+    fontSize: w/12,
+    color: AppConstantsColor.darkTextColor,
+    fontWeight: FontWeight.w800
+  );
+  static TextStyle lightBlackText(double w) => TextStyle(
+    fontSize: w/26,
     color: AppConstantsColor.darkTextColor,
     fontWeight: FontWeight.w400
   );
+  static TextStyle lightWhiteText(double w) => TextStyle(
+    fontSize: w/28,
+    color: AppConstantsColor.whiteTextColor,
+    fontWeight: FontWeight.w400
+  );
+  static TextStyle semiLightText(double w) => TextStyle(
+    fontSize: w/30,
+    color: AppConstantsColor.semiLightTextColor,
+    fontWeight: FontWeight.w400
+  );
+
 }

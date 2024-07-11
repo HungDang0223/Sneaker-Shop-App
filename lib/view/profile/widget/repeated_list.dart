@@ -1,50 +1,55 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, must_be_immutable, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
-import 'package:sneaker_shop_app/theme/custom_app_theme.dart';
+import '../../../theme/custom_app_theme.dart';
 import '../../../utils/constants.dart';
 
-class RoundedLisTile extends StatelessWidget {
+class SettingItem extends StatelessWidget {
   double width;
   double height;
   Color? leadingBackColor;
   IconData icon;
   String title;
-  Widget trailing;
+  Widget trailling;
 
-  RoundedLisTile({
+  SettingItem({
     required this.width,
     required this.height,
     required this.leadingBackColor,
     required this.icon,
     required this.title,
-    required this.trailing,
+    required this.trailling,
   });
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    // final width = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {},
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
         child: Container(
           width: width,
-          height: height / 14,
-          child: ListTile(
-              leading: CircleAvatar(
+          height: height / 16,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
                 backgroundColor: leadingBackColor,
-                radius: 25,
+                radius: 20,
                 child: IconButton(
                   onPressed: () {},
                   icon: Icon(
                     icon,
                     color: AppConstantsColor.lightTextColor,
+                    size: width/20,
                   ),
                 ),
               ),
-              title: Text(title, style: AppThemes.profileRepeatedListTileTitle(width)),
-              trailing: trailing),
+              SizedBox(width: width/25,),
+              Text(title, style: AppThemes.profileRepeatedListTileTitle(width)),
+              Spacer(),
+              trailling
+            ],
+          ),
         ),
       ),
     );

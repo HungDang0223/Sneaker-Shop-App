@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sneaker_shop_app/theme/custom_app_theme.dart';
-
+import '../../../theme/custom_app_theme.dart';
 import '../../../utils/constants.dart';
 
 PreferredSize? customAppBar(ctx) {
@@ -11,13 +10,14 @@ PreferredSize? customAppBar(ctx) {
   return PreferredSize(
     preferredSize: Size.fromHeight(height/15),
     child: AppBar(
+      automaticallyImplyLeading: false,
       elevation: 0,
       backgroundColor: Colors.transparent,
       title: Padding(
         padding: EdgeInsets.only(top: 8.0),
         child: Text(
           "Discover",
-          style: AppThemes.homeAppBar(width)
+          style: AppThemes.appBarText(width)
         ),
       ),
       actions: [

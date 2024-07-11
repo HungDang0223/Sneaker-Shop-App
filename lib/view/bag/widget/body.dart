@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sneaker_shop_app/theme/custom_app_theme.dart';
 
 import '../../../../utils/app_methods.dart';
 import '../../../animation/fadeanimation.dart';
-import '../../../models/models.dart';
+import '../../../data/models/models.dart';
+import '../../../firesbase/authentification/auth_service.dart';
+import '../../../theme/custom_app_theme.dart';
 import '../../../utils/constants.dart';
 import '../../../view/bag/widget/empty_list.dart';
 import '../../../data/dummy_data.dart';
@@ -17,6 +18,8 @@ class BodyBagView extends StatefulWidget {
 
 class _BodyBagViewState extends State<BodyBagView>
     with SingleTickerProviderStateMixin {
+
+  final _auth = AuthService();
   int lengthsOfItemsOnBag = itemsOnBag.length;
 
   @override
@@ -27,13 +30,14 @@ class _BodyBagViewState extends State<BodyBagView>
       margin: EdgeInsets.symmetric(horizontal: 8.0),
       width: width,
       height: height,
-      child: Column(
-        children: [
-          topText(width, height),
-          Divider(
-            color: Colors.grey,
-          ),
-          itemsOnBag.isEmpty
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            Divider(
+              color: Colors.grey,
+            ),
+            itemsOnBag.isEmpty
               ? EmptyList()
               : Column(children: [
                   mainListView(width, height),
@@ -42,26 +46,6 @@ class _BodyBagViewState extends State<BodyBagView>
                   ),
                   bottomInfo(width, height),
                 ])
-        ],
-      ),
-    );
-  }
-
-  // Top Texts Components
-  topText(width, height) {
-    return Container(
-      width: width,
-      height: height / 14,
-      child: FadeAnimation(
-        delay: 0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("My Bag", style: AppThemes.bagTitle(width)),
-            Text(
-              "Total ${lengthsOfItemsOnBag} Items",
-              style: AppThemes.bagTotalPrice(width),
-            ),
           ],
         ),
       ),
@@ -89,8 +73,9 @@ class _BodyBagViewState extends State<BodyBagView>
   // Main ListView Components
   mainListView(width, height) {
     return Container(
-      width: width,
-      height: height / 1.6,
+      margin: EdgeInsets.only(top: 10.0),
+      // width: width,
+      height: height,
       child: ListView.builder(
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
@@ -99,23 +84,22 @@ class _BodyBagViewState extends State<BodyBagView>
             ShoeModel currentBagItem = itemsOnBag[index];
 
             return FadeAnimation(
-              delay: 1.5 * index / 4,
+              delay: index / 4,
               child: Container(
-                margin: EdgeInsets.symmetric(vertical: 1),
+                margin: EdgeInsets.only(bottom: 10),
                 width: width,
-                height: height / 5.2,
+                height: height / 6,
                 child: Row(
                   children: [
                     Container(
                       width: width / 2.8,
-                      height: height / 5.7,
                       child: Stack(children: [
                         Positioned(
-                          top: 20,
+                          top: 0,
                           left: 10,
                           child: Container(
-                            width: width / 3.6,
-                            height: height / 7.1,
+                            width: width / 3.2,
+                            height: height / 6,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
                               color: Colors.grey[350],
@@ -123,13 +107,13 @@ class _BodyBagViewState extends State<BodyBagView>
                           ),
                         ),
                         Positioned(
-                            right: 2,
-                            bottom: 15,
+                            right: 10,
+                            bottom: 0,
                             child: RotationTransition(
                               turns: AlwaysStoppedAnimation(-40 / 360),
                               child: Container(
-                                width: 140,
-                                height: 140,
+                                width: 120,
+                                height: 120,
                                 child: Image(
                                   image: AssetImage(
                                     currentBagItem.imgAddress,
@@ -217,8 +201,6 @@ class _BodyBagViewState extends State<BodyBagView>
   bottomInfo(width, height) {
     return Container(
       margin: EdgeInsets.only(top: 10.0),
-      width: width,
-      height: height / 7,
       child: Column(
         children: [
           FadeAnimation(
@@ -233,7 +215,7 @@ class _BodyBagViewState extends State<BodyBagView>
             ),
           ),
           SizedBox(
-            height: 30,
+            height: 20,
           ),
           materialButton(width, height)
         ],

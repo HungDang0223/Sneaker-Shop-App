@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sneaker_shop_app/animation/fadeanimation.dart';
-import 'package:sneaker_shop_app/theme/custom_app_theme.dart';
+
+import '../../../animation/fadeanimation.dart';
+import '../../../theme/custom_app_theme.dart';
 
 class EmptyList extends StatelessWidget {
   const EmptyList({super.key});

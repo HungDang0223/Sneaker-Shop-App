@@ -1,18 +1,32 @@
 {
   "project_info": {
     "project_number": "45066048261",
+    "firebase_url": "https://sneaker-shoes-shop-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "sneaker-shoes-shop",
     "storage_bucket": "sneaker-shoes-shop.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:45066048261:android:1b6947dbe8c68b14875d6c",
+        "mobilesdk_app_id": "1:45066048261:android:776718f3f5914349875d6c",
         "android_client_info": {
-          "package_name": "com.example.sneakers_app"
+          "package_name": "com.example.sneaker_shop_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "45066048261-ruam1lil9d4lvb8n32epqd595nakh0us.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sneaker_shop_app",
+            "certificate_hash": "fc1131696263c0f2d476f567bc105ee9a777cbf7"
+          }
+        },
+        {
+          "client_id": "45066048261-8gf5eh1td0hcnb4u5fkfnhid220gvndf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC0CcXQ9SDoZKH-kqFi1IH30561sWj5SHo"
@@ -20,7 +34,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "45066048261-8gf5eh1td0hcnb4u5fkfnhid220gvndf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "45066048261-d55jmbgd88c869iovpi4rf9pb7k7bbti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sneakerShopApp"
+              }
+            }
+          ]
         }
       }
     }

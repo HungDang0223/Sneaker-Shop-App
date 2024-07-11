@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sneaker_shop_app/utils/constants.dart';
 
-import 'package:sneaker_shop_app/view/bag/widget/body.dart';
+import '../../utils/constants.dart';
+import 'widget/app_bar.dart';
+import 'widget/body.dart';
 
 class MyBagScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child: Scaffold(
         backgroundColor: AppConstantsColor.backgroundColor,
+        appBar: customBagAppBar(context),
         body: BodyBagView(),
       ),
     );

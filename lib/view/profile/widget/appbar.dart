@@ -1,9 +1,7 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:sneaker_shop_app/theme/custom_app_theme.dart';
 
 import '../../../utils/constants.dart';
+import '../../../theme/custom_app_theme.dart';
 
 PreferredSize? customAppBarProfile(ctx) {
   final width = MediaQuery.of(ctx).size.width;

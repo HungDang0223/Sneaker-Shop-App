@@ -1,10 +1,11 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sneaker_shop_app/utils/constants.dart';
-import 'package:sneaker_shop_app/view/bag/bag_screen.dart';
-import 'package:sneaker_shop_app/view/home/home_screen.dart';
-import 'package:sneaker_shop_app/view/profile/profile_screen.dart';
+
+import '../utils/constants.dart';
+import 'bag/bag_screen.dart';
+import 'home/home_screen.dart';
+import 'profile/profile_screen.dart';
 
 class MainNavigator extends StatefulWidget {
   @override
@@ -41,12 +42,6 @@ class _MainNavigatorState extends State<MainNavigator> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screen[_selectedIndex],
-      // PageView(
-      //   controller: _pageController,
-      //   children: _screen,
-      //   onPageChanged: _onPageChanged,
-      //   physics: NeverScrollableScrollPhysics(),
-      // ),
       bottomNavigationBar: CustomNavigationBar(
         iconSize: 27.0,
         bubbleCurve: Curves.linear,

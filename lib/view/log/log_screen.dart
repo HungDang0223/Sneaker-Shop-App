@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sneaker_shop_app/view/log/widget/sign_in.dart';
+import 'widget/sign_in.dart';
 
 class LogScreen extends StatefulWidget {
   const LogScreen({super.key});

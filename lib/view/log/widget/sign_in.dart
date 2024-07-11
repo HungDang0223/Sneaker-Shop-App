@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:sneaker_shop_app/theme/custom_app_theme.dart';
-import 'package:sneaker_shop_app/utils/constants.dart';
-import 'package:sneaker_shop_app/view/log/widget/sign_up.dart';
+
+import '../../../controller/sign_in_controller.dart';
+import '../../../firesbase/authentification/auth_service.dart';
+import '../../../theme/custom_app_theme.dart';
+import '../../navigator.dart';
+import 'sign_up.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -13,6 +17,10 @@ class SigninScreen extends StatefulWidget {
 }
 
 class _SigninScreenState extends State<SigninScreen> {
+  final _controller = Get.put(SignInController());
+
+  final _auth = AuthService();
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   @override
@@ -22,127 +30,211 @@ class _SigninScreenState extends State<SigninScreen> {
     _emailController.dispose();
     _passwordController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xfff2f2f2),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.arrow_back,
-              size: w / 20,
-              color: AppConstantsColor.hightlightTextColor,
-            )),
-        title: Text("Đăng nhập", style: AppThemes.logAppBarTitle(w),),
-      ),
-      body: Container(
-        child: Column(
-          children: [
-                Container(
-                  child: Text(
-                    "Đăng nhập",
-                    style: AppThemes.logTitle(w),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: [
+              SizedBox(
+                height: height / 10,
+              ),
+              Container(
+                child: Text(
+                  "Đăng nhập",
+                  style: AppThemes.logTitle(width),
                 ),
-            ),
-            SizedBox(height: h/14,),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 25),
-              child: Column(
-                children: [
-                  Container(
-                    height: h/13,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 10),
-                        hintText: "Email hoặc Số điện thoại",
-                        hintStyle: TextStyle(color: Colors.grey[400]),
-                        border: InputBorder.none
+              ),
+              SizedBox(
+                height: height / 14,
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 25),
+                child: Column(
+                  children: [
+                    Container(
+                      height: height / 14,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 10),
+                            hintText: "Email hoặc Số điện thoại",
+                            hintStyle: TextStyle(color: Colors.grey[500]),
+                            border: InputBorder.none),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 5,),
-                  Container(
-                    height: h/13,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
+                    SizedBox(
+                      height: 10,
                     ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 10),
-                        hintText: "Mật khẩu",
-                        hintStyle: TextStyle(color: Colors.grey[400]),
-                        border: InputBorder.none
+                    Container(
+                      height: height / 14,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextField(
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 10),
+                            hintText: "Mật khẩu",
+                            hintStyle: TextStyle(color: Colors.grey[500]),
+                            border: InputBorder.none),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 6,),
-                  Row(
-                    children: [
-                      Spacer(),
-                      Container(
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Row(
+                      children: [
+                        Spacer(),
+                        Container(
+                          child: Text(
+                            "Quên mật khẩu?",
+                            style: TextStyle(
+                                fontSize: width / 26,
+                                color: Color.fromRGBO(143, 148, 251, 1)),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _controller.getInputEmail(_emailController.text);
+                        _signin();
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        height: height / 14,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            gradient: LinearGradient(colors: [
+                              Color.fromRGBO(143, 148, 251, 1),
+                              Color.fromRGBO(143, 148, 251, .6),
+                            ])),
                         child: Text(
-                          "Quên mật khẩu?",
-                          style: TextStyle(
-                            fontSize: w/26,
-                            color: Color.fromRGBO(143, 148, 251, 1)),
+                          "Đăng nhập",
+                          style: AppThemes.logButton(width),
                         ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    height: h/12,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      gradient: LinearGradient(
-                        colors: [
-                          Color.fromRGBO(143, 148, 251, 1),
-                          Color.fromRGBO(143, 148, 251, .6),
-                        ]
-                      )
+                      ),
                     ),
-                    child: Text(
-                      "Đăng nhập",
-                      style: AppThemes.logButton(w),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Bạn chưa có tài khoản?",
+                          style: AppThemes.lightBlackText(width),
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(SignupScreen());
+                          },
+                          child: Text(
+                            "Đăng ký ngay",
+                            style: TextStyle(
+                                fontSize: width / 26,
+                                color: Color.fromRGBO(143, 148, 251, 1)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text("Hoặc đăng nhập với"),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _auth.signInWithGoogle();
+                    },
+                    child: Container(
+                      height: width / 5,
+                      width: width / 5,
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Color(0xffffffff),
+                        borderRadius: BorderRadius.circular(15),
+                        // border: Border.all(
+                        //   color: Colors.white,
+                        // )
+                      ),
+                      child: Container(
+                        child: Image.asset(
+                          "assets/images/google3.png",
+                          // fit: BoxFit.fill,
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 6,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Bạn chưa có tài khoản?", style: AppThemes.lightText(w),),
-                      SizedBox(width: 4,),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(SignupScreen());
-                        },
-                        child: Text("Đăng ký ngay", style: TextStyle(
-                            fontSize: w/26,
-                            color: Color.fromRGBO(143, 148, 251, 1)),),
-                      )
-                    ],
+                  SizedBox(
+                    width: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _auth.signInWithGoogle();
+                    },
+                    child: Container(
+                      height: width / 5,
+                      width: width / 5,
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Colors.white,
+                          )),
+                      child: Container(
+                        child: Image.asset(
+                          "assets/images/facebook3.png",
+                        ),
+                      ),
+                    ),
                   )
                 ],
-              ),
-            ),
-            
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  _signin() async {
+    final res = await _auth.signinWithEmailAndPassword(
+        _emailController.text, _passwordController.text);
+    if (res != null) {
+      log("sign in success");
+      Get.to(MainNavigator());
+    } else {
+      log("Sign in failed");
+    }
   }
 }

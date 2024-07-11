@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:sneaker_shop_app/data/dummy_data.dart';
-import 'package:sneaker_shop_app/widget/snack_bar.dart';
-
-import '../models/models.dart';
+import '../data/dummy_data.dart';
+import '../data/models/models.dart';
+import '../widget/snack_bar.dart';
 
 class AppMethods {
   AppMethods._();

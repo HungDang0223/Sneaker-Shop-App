@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:sneaker_shop_app/models/shoe_model.dart';
-import 'package:sneaker_shop_app/view/detail/components/app_bar.dart';
-import 'package:sneaker_shop_app/view/detail/components/body.dart';
+import '../../data/models/shoe_model.dart';
 import '../../utils/constants.dart';
+import 'components/app_bar.dart';
+import 'components/body.dart';
 
 class DetailScreen extends StatelessWidget {
   ShoeModel model;
