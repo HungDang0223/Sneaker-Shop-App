@@ -15,7 +15,7 @@ class ProductStorage {
             query.docs.first.data() as Map<String, dynamic>);
       }
     } catch (e) {
-      log(e.toString());
+      log("loi khi lay san pham tu id: "+ e.toString());
     }
     return null;
   }
@@ -34,14 +34,16 @@ class ProductStorage {
       String brand) async {
     try {
       final res = await _product.where("brand", isEqualTo: brand).get();
-      log("filter by brand catch error " + res.size.toString());
-      final a = res.docs
-          .map((product) => ShoeModel.fromJson(product.data()))
-          .toList();
-      log(a.length.toString());
-      return a;
+
+      if (res.docs.isNotEmpty) {
+        final listProducts = res.docs
+            .map((product) => ShoeModel.fromJson(product.data()))
+            .toList();
+            
+        return listProducts;
+      } else log("ket qua bi rong");
     } catch (e) {
-      log(e.toString());
+      log("lay san pham gap loi: "+e.toString());
     }
     return null;
   }

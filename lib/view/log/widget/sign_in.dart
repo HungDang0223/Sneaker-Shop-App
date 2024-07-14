@@ -188,7 +188,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       ),
                       child: Container(
                         child: Image.asset(
-                          "assets/images/google3.png",
+                          "assets/images/google.png",
                           // fit: BoxFit.fill,
                         ),
                       ),
@@ -213,7 +213,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           )),
                       child: Container(
                         child: Image.asset(
-                          "assets/images/facebook3.png",
+                          "assets/images/facebook.png",
                         ),
                       ),
                     ),

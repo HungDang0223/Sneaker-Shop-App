@@ -25,13 +25,10 @@ class _BodyState extends State<Body> {
 
   final _productStorage = ProductStorage();
   late String? count;
-  late
-  List<ShoeModel>? listProduct = [];
 
   @override
   void initState() {
     super.initState();
-    getProduct();
   }
 
   @override
@@ -73,8 +70,6 @@ class _BodyState extends State<Body> {
                   onTap: () {
                     setState(() {
                       selectedIndexOfCategory = index;
-                      // log(count!);
-                      log(listProduct![0].toString());
                     });
                   },
                   child: Padding(
@@ -94,7 +89,7 @@ class _BodyState extends State<Body> {
                     ),
                   ),
                 );
-              }),
+              })
         )
       ],
     );
@@ -107,117 +102,135 @@ class _BodyState extends State<Body> {
         Container(
           width: width - 20,
           height: height / 2.5,
-          child: ListView.builder(
-            physics: BouncingScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            itemCount: availableShoes.length,
-            itemBuilder: (ctx, index) {
-              ShoeModel model = availableShoes[index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctx) => DetailScreen(
-                        model: model,
-                        isComeFromMoreSection: false,
-                      ),
-                    ),
-                  );
-                },
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                  width: width / 1.5,
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: width / 1.7,
-                        decoration: BoxDecoration(
-                          color: model.modelColor,
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
-                      Positioned(
-                        top: 5,
-                        left: width / 40,
-                        child: FadeAnimation(
-                          delay: 1,
-                          child: Row(
-                            children: [
-                              Text(model.brand,
-                                  style: AppThemes.homeProductName(width)),
-                              SizedBox(
-                                width: width / 2.9,
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.white,
-                                  size: width / 20,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: width / 10,
-                        left: 10,
-                        child: FadeAnimation(
-                          delay: 1.5,
-                          child: Text(model.model,
-                              style: AppThemes.homeProductModel(width)),
-                        ),
-                      ),
-                      Positioned(
-                        top: width / 5.5,
-                        left: 10,
-                        child: FadeAnimation(
-                          delay: 2,
-                          child: Text("\$${model.price.toStringAsFixed(2)}",
-                              style: AppThemes.homeProductPrice(width)),
-                        ),
-                      ),
-                      Positioned(
-                        left: 10,
-                        top: width / 4,
-                        child: FadeAnimation(
-                          delay: 2,
-                          child: RotationTransition(
-                            turns: AlwaysStoppedAnimation(-30 / 360),
-                            child: GestureDetector(
-                              onTap: () {
-                                log(model.imgUrl);
-                              },
-                              child: Container(
-                                width: width / 1.8,
-                                height: height / 6,
-                                // child: Image(
-                                // image: AssetImage(model.imgAddress),
-                                child: Image.network(model.imgUrl),
-                                // ),
-                              ),
+          child: FutureBuilder(
+            future: _productStorage.getProductFromFirestoreFilterByBrand(categories[selectedIndexOfCategory]),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text('Error when get product by brand: $snapshot.error');
+              } else if (snapshot.hasData) {
+                List<ShoeModel> listProduct = snapshot.data!;
+                return ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: listProduct.length,
+                  itemBuilder: (ctx, index) {
+                    ShoeModel model = listProduct[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (ctx) => DetailScreen(
+                              model: model,
+                              isComeFromMoreSection: false,
                             ),
                           ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                        width: width / 1.5,
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: width / 1.7,
+                              decoration: BoxDecoration(
+                                color: model.modelColor,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                            ),
+                            Positioned(
+                              top: 5,
+                              left: width / 40,
+                              child: FadeAnimation(
+                                delay: 1,
+                                child: Row(
+                                  children: [
+                                    Text(model.brand,
+                                        style: AppThemes.homeProductName(width)),
+                                    SizedBox(
+                                      width: width / 2.9,
+                                    ),
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.white,
+                                        size: width / 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: width / 10,
+                              left: 10,
+                              child: FadeAnimation(
+                                delay: 1.5,
+                                child: Text(model.model,
+                                    style: AppThemes.homeProductModel(width)),
+                              ),
+                            ),
+                            Positioned(
+                              top: width / 5.5,
+                              left: 10,
+                              child: FadeAnimation(
+                                delay: 2,
+                                child: Text("\$${model.price.toStringAsFixed(2)}",
+                                    style: AppThemes.homeProductPrice(width)),
+                              ),
+                            ),
+                            Positioned(
+                              left: 10,
+                              top: width / 4,
+                              child: FadeAnimation(
+                                delay: 2,
+                                child: RotationTransition(
+                                  turns: AlwaysStoppedAnimation(-30 / 360),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      log(model.imgUrl);
+                                    },
+                                    child: Container(
+                                      width: width / 1.8,
+                                      height: height / 6,
+                                      // child: Image(
+                                      // image: AssetImage(model.imgAddress),
+                                      child: Image.network(model.imgUrl),
+                                      // ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              left: width / 2.1,
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.arrow_circle_right,
+                                  size: width / 18),
+                              ),
+                            )
+                          ],
                         ),
                       ),
-                      Positioned(
-                        bottom: 0,
-                        left: width / 2.1,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: FaIcon(
-                            FontAwesomeIcons.arrowCircleRight,
-                            color: Colors.white,
-                            size: width / 18,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              );
+                    );
+                  },
+                );
+              } else {
+                return Center(child: Text("No Data"),);
+              }
             },
           ),
         )
@@ -374,12 +387,4 @@ class _BodyState extends State<Body> {
     );
   }
 
-  void getProduct() async {
-    count = await _productStorage.getproductFromFiretore();
-    listProduct =
-        (await _productStorage.getProductFromFirestoreFilterByBrand("Nike"));
-    if (listProduct == null) {
-      log('list bi null');
-    }
-  }
 }

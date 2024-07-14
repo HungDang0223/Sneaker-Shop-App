@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 
 class ShoeModel {
   String productId;
+  
+  String get getProductId => productId;
+
+  set setProductId(String value) {
+    productId = value;
+  }
   String brand;
   String model;
   double price;
@@ -23,16 +29,16 @@ class ShoeModel {
     required this.modelColor,
   });
 
-  factory ShoeModel.fromJson(Map<String, dynamic> json) {
+  static ShoeModel fromJson(Map<String, dynamic> json) {
     return ShoeModel(
-        productId: json['productId'] ?? '',
-        brand: json['brand'] ?? '',
-        model: json['model'] ?? '',
-        price: json['price'] ?? '',
+        productId: json["productId"] ?? '',
+        brand: json["brand"] ?? '',
+        model: json["model"] ?? '',
+        price: json["price"] ?? 0,
         imgAddress: '',
-        imgUrl: json['price'] ?? '',
-        mainColor: json['mainColor'] ?? '',
-        modelColor: Color(int.parse("0xff$json['modelColor']")));
+        imgUrl: json["imgUrl"] ?? '',
+        mainColor: json["mainColor"] ?? '',
+        modelColor: Color(int.parse("0xff" + json["modelColor"].toString().replaceAll("#", ""))));
   }
 
   Map<String, dynamic> toMap() {

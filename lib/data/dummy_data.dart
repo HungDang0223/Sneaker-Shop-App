@@ -43,7 +43,7 @@ final List<ShoeModel> availableShoes = [
     price: 110.00,
     imgAddress: "assets/images/nike3.png",
     imgUrl:
-        "https://firebasestorage.googleapis.com/v0/b/sneaker shoes-shop.appspot.com/o/shoes%2Fnike%2Fnike3.png?alt=media",
+        "https://firebasestorage.googleapis.com/v0/b/sneaker-shoes-shop.appspot.com/o/shoes%2Fnike%2Fnike3.png?alt=media",
     modelColor: const Color(0xffD7D8DC),
     mainColor: '',
   ),
