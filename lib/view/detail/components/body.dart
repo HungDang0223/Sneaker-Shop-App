@@ -6,9 +6,11 @@ import '../../../../../utils/constants.dart';
 import '../../../data/models/shoe_model.dart';
 import '../../../data/dummy_data.dart';
 import '../../../data/models/models.dart';
+import '../../../firesbase/storage/cart.dart';
 import '../../../theme/custom_app_theme.dart';
 
 class DetailsBody extends StatefulWidget {
+
   ShoeModel model;
   bool isComeFromMoreSection;
   DetailsBody({required this.model, required this.isComeFromMoreSection});
@@ -18,7 +20,11 @@ class DetailsBody extends StatefulWidget {
 }
 
 class details extends State<DetailsBody> {
+
+  final _cart = Cart();
+
   int? _isSelectedSize;
+  int quantity = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -103,18 +109,13 @@ class details extends State<DetailsBody> {
           Positioned(
             top: 100,
             left: 30,
-            child: Hero(
-              tag: widget.isComeFromMoreSection
-                  ? widget.model.model
-                  : widget.model.imgAddress,
               child: RotationTransition(
                 turns: AlwaysStoppedAnimation(-25 / 360),
                 child: Container(
                   width: width / 1.3,
                   height: height / 4.3,
-                  child: Image(image: AssetImage(widget.model.imgAddress)),
+                  child: Image.network(widget.model.imgUrl),
                 ),
-              ),
             ),
           )
         ],
@@ -133,7 +134,7 @@ class details extends State<DetailsBody> {
         color: Colors.grey[300],
       ),
       child: Image(
-        image: AssetImage(widget.model.imgAddress),
+        image: NetworkImage(widget.model.imgUrl),
       ),
     );
   }
@@ -159,7 +160,7 @@ class details extends State<DetailsBody> {
               decoration: BoxDecoration(
                 color: Colors.grey[300],
                 image: DecorationImage(
-                  image: AssetImage(widget.model.imgAddress),
+                  image: NetworkImage(widget.model.imgUrl),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
                       Colors.grey.withOpacity(1), BlendMode.darken),
@@ -191,6 +192,7 @@ class details extends State<DetailsBody> {
         color: AppConstantsColor.materialButtonColor,
         onPressed: () {
           AppMethods.addToCart(widget.model, context);
+          _cart.addToCart(widget.model, 30, quantity);
         },
         child: Text(
           "ADD TO BAG",
@@ -278,7 +280,7 @@ class details extends State<DetailsBody> {
         width: width,
         height: height / 8,
         child: Text(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt laoreet enim, eget sodales ligula semper at. Sed id aliquet eros, nec vestibulum felis. Nunc maximus aliquet aliquam. Quisque eget sapien at velit cursus tincidunt. Duis tempor lacinia erat eget fermentum.",
+            "description",
             style: AppThemes.detailsProductDescriptions),
       ),
     );

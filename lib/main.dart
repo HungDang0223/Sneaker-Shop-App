@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'view/log/log_screen.dart';
@@ -33,6 +34,7 @@ Future<void> main() async {
   }
   SharedPreferences preferences = await SharedPreferences.getInstance();
   bool isLogged = preferences.containsKey('uid');
+  usePathUrlStrategy();
   runApp(GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

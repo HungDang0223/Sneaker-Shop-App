@@ -5,19 +5,12 @@ import '../../data/models/shoe_model.dart';
 class ProductStorage {
   final _product = FirebaseFirestore.instance.collection('products');
 
-  Future<ShoeModel?> getProductById(String productId) async {
-    try {
-      QuerySnapshot query =
-          await _product.where("id", isEqualTo: productId).get();
-
-      if (query.docs.isNotEmpty) {
-        return ShoeModel.fromJson(
-            query.docs.first.data() as Map<String, dynamic>);
-      }
-    } catch (e) {
-      log("loi khi lay san pham tu id: "+ e.toString());
+  Future<ShoeModel> getProductById(String productId) async {
+    final productDoc = await _product.doc(productId).get();
+    if (!productDoc.exists) {
+      throw Exception('Product not found for ID: $productId');
     }
-    return null;
+    return ShoeModel.fromJson(productDoc.data()!);
   }
 
   Future<String?> getproductFromFiretore() async {

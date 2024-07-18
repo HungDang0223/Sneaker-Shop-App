@@ -24,12 +24,6 @@ class _BodyState extends State<Body> {
   int selectedIndexOfFeatured = 1;
 
   final _productStorage = ProductStorage();
-  late String? count;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,6 +119,7 @@ class _BodyState extends State<Body> {
                     ShoeModel model = listProduct[index];
                     return GestureDetector(
                       onTap: () {
+                        log("next");
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -196,18 +191,11 @@ class _BodyState extends State<Body> {
                                 delay: 2,
                                 child: RotationTransition(
                                   turns: AlwaysStoppedAnimation(-30 / 360),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      log(model.imgUrl);
-                                    },
-                                    child: Container(
+                                  child: Container(
                                       width: width / 1.8,
                                       height: height / 6,
-                                      // child: Image(
-                                      // image: AssetImage(model.imgAddress),
                                       child: Image.network(model.imgUrl),
-                                      // ),
-                                    ),
+                                    
                                   ),
                                 ),
                               ),

@@ -23,6 +23,8 @@ dependencies:
   simple_animations: ^5.0.2
   supercharged: ^2.1.1
   cupertino_icons: ^1.0.6
+  flutter_web_plugins:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
