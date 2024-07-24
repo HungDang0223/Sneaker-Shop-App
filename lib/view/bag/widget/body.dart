@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sneaker_shop_app/firesbase/storage/product_storage.dart';
 
-import '../../../../utils/app_methods.dart';
 import '../../../animation/fadeanimation.dart';
 import '../../../data/models/models.dart';
 import '../../../firesbase/authentification/auth_service.dart';
@@ -24,10 +25,17 @@ class _BodyBagViewState extends State<BodyBagView>
 
   final _auth = AuthService();
   final _cart = Cart();
+  // int quantity = 1;
 
-  int quantity = 1;
   bool delete = false;
-  int lengthsOfItemsOnBag = itemsOnBag.length;
+  Timer? _timer;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _timer?.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,18 +88,10 @@ class _BodyBagViewState extends State<BodyBagView>
     return Container(
       margin: const EdgeInsets.only(top: 10.0),
       height: height,
-      child: FutureBuilder(
-            future: _cart.getProductByUID(),
+      child: StreamBuilder(
+            stream: _cart.getProductByUID(),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    child: const CircularProgressIndicator(),
-                  ),
-                );
-              } else if (snapshot.hasError) {
+              if (snapshot.hasError) {
                 return Text('Error when get product by brand: $snapshot.error');
               } else if (snapshot.hasData) {
                 List<Map<String, dynamic>> listCartItem = snapshot.data!;
@@ -101,9 +101,13 @@ class _BodyBagViewState extends State<BodyBagView>
                   itemCount: listCartItem.length,
                   itemBuilder: (ctx, index) {
                     Map<String, dynamic> currentItem = listCartItem[index];
-                    print(currentItem);
+
                     ShoeModel shoe = currentItem["product"];
-                    print(shoe);
+                    var quantity = currentItem["quantity"];
+                    // setState(() {
+                    //   quantity = currentItem["quantity"];
+                    // });
+                    
                     return FadeAnimation(
                       delay: index / 4,
                       child: Container(
@@ -112,7 +116,7 @@ class _BodyBagViewState extends State<BodyBagView>
                         height: height / 6,
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: width / 2.8,
                               child: Stack(children: [
                                 Positioned(
@@ -132,7 +136,7 @@ class _BodyBagViewState extends State<BodyBagView>
                                     bottom: 0,
                                     child: RotationTransition(
                                       turns: const AlwaysStoppedAnimation(-40 / 360),
-                                      child: Container(
+                                      child: SizedBox(
                                         width: 120,
                                         height: 120,
                                         child: Image(
@@ -150,7 +154,7 @@ class _BodyBagViewState extends State<BodyBagView>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(shoe.model,
+                                  Text(shoe.model.toUpperCase(),
                                       style: AppThemes.bagProductModel(width)),
                                   const SizedBox(
                                     height: 4,
@@ -166,14 +170,23 @@ class _BodyBagViewState extends State<BodyBagView>
                                         onTap: () {
                                           setState(() {
                                             if (quantity>1) {
-                                              quantity -= 1;
+                                              quantity --;
                                             } else {
                                               Get.defaultDialog(
-                                                onConfirm: () => itemsOnBag.remove(currentItem),
+                                                onConfirm: () {
+                                                  _cart.deleteItemFromCart(shoe.productId);
+                                                  print("delete ${shoe.productId}");
+                                                  Get.back();
+                                                },
                                                 onCancel: () {},
                                                 middleText: "Bạn chắc chắn muốn xóa sản phẩm này?"
                                               );
                                             }
+
+                                          _timer?.cancel();
+                                          _timer = Timer(Duration(seconds: 0), () {
+                                              _cart.updateItemCartInfo(shoe.productId, quantity);
+                                          });
                                           });
                                         },
                                         child: Container(
@@ -193,14 +206,25 @@ class _BodyBagViewState extends State<BodyBagView>
                                       const SizedBox(
                                         width: 10,
                                       ),
-                                      Text(currentItem["quantity"].toString(), style: AppThemes.bagProductNumOfShoe(width)),
+                                      SizedBox(
+                                        width: 20,
+                                        child: Center(
+                                          child: Text(quantity.toString(), style: AppThemes.bagProductNumOfShoe(width)),
+                                        ),
+                                      ),
                                       const SizedBox(
                                         width: 10,
                                       ),
                                       GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            quantity += 1;
+                                            quantity ++;
+                                          });
+
+                                          _timer?.cancel();
+
+                                          _timer = Timer(Duration(seconds: 0), () {
+                                              _cart.updateItemCartInfo(shoe.productId, quantity);
                                           });
                                         },
                                         child: Container(
@@ -228,7 +252,13 @@ class _BodyBagViewState extends State<BodyBagView>
                     );
                   });
               } else {
-                return const Center(child: Text("No Data"),);
+                return  const Center(
+                  child: SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(),
+                  ),
+                );
               }
             },
           ),
@@ -247,8 +277,8 @@ class _BodyBagViewState extends State<BodyBagView>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("TOTAL", style: AppThemes.bagTotalPrice(width)),
-                Text("\$${AppMethods.sumOfItemsOnBag()}",
-                    style: AppThemes.bagSumOfItemOnBag(width)),
+                // Text("\$${AppMethods.sumOfItemsOnBag()}",
+                //     style: AppThemes.bagSumOfItemOnBag(width)),
               ],
             ),
           ),

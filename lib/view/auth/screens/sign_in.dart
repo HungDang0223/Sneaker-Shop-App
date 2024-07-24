@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:sneaker_shop_app/widget/my_text_field.dart';
 
 import '../../../controller/sign_in_controller.dart';
 import '../../../firesbase/authentification/auth_service.dart';
@@ -17,10 +19,11 @@ class SigninScreen extends StatefulWidget {
 }
 
 class _SigninScreenState extends State<SigninScreen> {
-  final _controller = Get.put(SignInController());
+  final _controller = Get.put(UserController());
 
   final _auth = AuthService();
 
+  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   @override
@@ -40,41 +43,44 @@ class _SigninScreenState extends State<SigninScreen> {
       body: SingleChildScrollView(
         child: Container(
           child: Column(
-            children: [
-              SizedBox(
-                height: height / 10,
+          children: [
+            SizedBox(
+              height: height / 10,
+            ),
+            Container(
+              child: Text(
+                "Đăng nhập",
+                style: AppThemes.logTitle(width),
               ),
-              Container(
-                child: Text(
-                  "Đăng nhập",
-                  style: AppThemes.logTitle(width),
-                ),
-              ),
-              SizedBox(
-                height: height / 14,
-              ),
-              Container(
+            ),
+            SizedBox(
+              height: height / 14,
+            ),
+            Form(
+              key: _formKey,
+              child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 25),
                 child: Column(
                   children: [
                     Container(
-                      height: height / 14,
+                      height: height / 9,
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 10),
-                            hintText: "Email hoặc Số điện thoại",
-                            hintStyle: TextStyle(color: Colors.grey[500]),
-                            border: InputBorder.none),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
+                      child: MyTextField(
+                          controller: _emailController,
+                          hintText: "Nhập email của bạn",
+                          obscureText: false,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (e) {
+                            if (e!.isEmpty) {
+                              return "Email không được để trống.";
+                            }
+                            if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(e)) {
+                              return "Email không hợp lệ.";
+                            }
+                            return null;
+                          },
+                          // errorMsg: "loi oi",
+                        ),
                     ),
                     Container(
                       height: height / 14,
@@ -113,7 +119,10 @@ class _SigninScreenState extends State<SigninScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        _controller.getInputEmail(_emailController.text);
+                        if (_formKey.currentState!.validate()) {
+                          log("sss");
+                        };
+                        _controller.user.value.email = _emailController.text;
                         _signin();
                       },
                       child: Container(
@@ -161,66 +170,8 @@ class _SigninScreenState extends State<SigninScreen> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Text("Hoặc đăng nhập với"),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      _auth.signInWithGoogle();
-                    },
-                    child: Container(
-                      height: width / 5,
-                      width: width / 5,
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: Color(0xffffffff),
-                        borderRadius: BorderRadius.circular(15),
-                        // border: Border.all(
-                        //   color: Colors.white,
-                        // )
-                      ),
-                      child: Container(
-                        child: Image.asset(
-                          "assets/images/google.png",
-                          // fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _auth.signInWithGoogle();
-                    },
-                    child: Container(
-                      height: width / 5,
-                      width: width / 5,
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                            color: Colors.white,
-                          )),
-                      child: Container(
-                        child: Image.asset(
-                          "assets/images/facebook.png",
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              )
-            ],
+            ),
+          ],
           ),
         ),
       ),
@@ -232,7 +183,7 @@ class _SigninScreenState extends State<SigninScreen> {
         _emailController.text, _passwordController.text);
     if (res != null) {
       log("sign in success");
-      Get.to(MainNavigator());
+      Get.off(MainNavigator());
     } else {
       log("Sign in failed");
     }

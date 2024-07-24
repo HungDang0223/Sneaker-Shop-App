@@ -25,22 +25,22 @@ class SettingItem extends StatelessWidget {
     return InkWell(
       onTap: () {},
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
         child: Container(
           width: width,
-          height: height / 16,
+          height: height / 21,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
                 backgroundColor: leadingBackColor,
-                radius: 20,
+                radius: 16,
                 child: IconButton(
                   onPressed: () {},
                   icon: Icon(
                     icon,
                     color: AppConstantsColor.lightTextColor,
-                    size: width/20,
+                    size: width/23,
                   ),
                 ),
               ),

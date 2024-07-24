@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'widget/sign_in.dart';
+import 'package:sneaker_shop_app/view/auth/screens/sign_up.dart';
+import 'screens/sign_in.dart';
 
 class LogScreen extends StatefulWidget {
   const LogScreen({super.key});
@@ -13,7 +14,7 @@ class _LogScreenState extends State<LogScreen> {
   Widget build(BuildContext context) {
     return const SafeArea(
       child: Scaffold(
-        body: SigninScreen(),
+        body: SignupScreen(),
       )
     );
   }

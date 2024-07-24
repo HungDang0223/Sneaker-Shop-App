@@ -10,10 +10,11 @@ import '../../../data/models/models.dart';
 import '../../../../utils/constants.dart';
 import '../../../../view/profile/widget/repeated_list.dart';
 import '../../../data/dummy_data.dart';
+import '../../../data/models/user.dart';
 import '../../../firesbase/authentification/auth_service.dart';
 import '../../../firesbase/storage/user_storage.dart';
 import '../../../theme/custom_app_theme.dart';
-import '../../log/widget/sign_in.dart';
+import '../../auth/screens/sign_in.dart';
 
 class BodyProfile extends StatefulWidget {
   const BodyProfile({Key? key}) : super(key: key);
@@ -30,226 +31,239 @@ class _BodyProfileState extends State<BodyProfile> {
   }
 
   final _auth = AuthService();
-  final SignInController _signinController = Get.put(SignInController());
+  final UserController _userController = Get.put(UserController());
   final _user = UserCollection();
 
   int statusCurrentIndex = 0;
+  bool isDarkMode = false;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return Obx(() => _signinController.isLoading.value
+    return Obx(() => _userController.isLoading.value
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  //topProfilePicAndName
-                  FadeAnimation(
-                    delay: 1,
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+        : Scaffold(
+          extendBodyBehindAppBar: true,
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                //topProfilePicAndName
+                Container(
+                  color: Color(0xff337ab7),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: 
+                  Column(
+                    children: [
+                      Row(
                         children: [
-                          CircleAvatar(
-                            radius: width / 11,
-                            backgroundImage: NetworkImage(
-                                "https://avatars.githubusercontent.com/u/91388754?v=4"),
+                          Expanded(
+                            child: Center(
+                              child: Text("Hồ sơ",
+                                style: AppThemes.profileAppBarTitle(width)),
+                            )
                           ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: width / 1.8,
-                                child: Obx(() => Text(
-                                      _signinController.username.value,
-                                      style: AppThemes.profileDevName(width),
-                                    )),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                              child: IconButton(
+                                icon: Icon(Icons.more_vert),
+                                onPressed: () {},
+                                color: Colors.white,
                               ),
-                              Text(
-                                "Flutter Developer",
-                                style: AppThemes.semiLightText(width),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                size: width / 15,
-                                Icons.edit_outlined,
-                                color: Colors.grey,
-                              ))
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-
-                  // StatusListView
-                  FadeAnimation(
-                    delay: 1.5,
-                    child: Container(
-                      width: width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text(
-                              "My Status",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey,
-                                  fontSize: 15),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Center(
-                            child: Container(
-                              width: width / 1.15,
-                              height: height / 14,
-                              child: ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: userStatus.length,
-                                  itemBuilder: (ctx, index) {
-                                    UserStatus status = userStatus[index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          statusCurrentIndex = index;
-                                        });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        child: Container(
-                                          margin: const EdgeInsets.all(5),
-                                          width: 120,
-                                          decoration: BoxDecoration(
-                                            color: statusCurrentIndex == index
-                                                ? status.selectColor
-                                                : status.unSelectColor,
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                status.emoji,
-                                                style: const TextStyle(
-                                                    fontSize: 16),
-                                              ),
-                                              const SizedBox(
-                                                width: 4,
-                                              ),
-                                              Text(
-                                                status.txt,
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    color: AppConstantsColor
-                                                        .lightTextColor,
-                                                    fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                            ),
                           )
                         ],
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-
-                  // Dashboard
-                  FadeAnimation(
-                    delay: 2,
-                    child: Container(
-                      width: width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: const Text(
-                                "Dashboard",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.grey,
-                                    fontSize: 15),
-                              )),
-                          const SizedBox(
-                            height: 10,
+                      Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: width/6,
+                          height: width/6,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image:  _userController.user.value.userPhoto == ""
+                                          ? AssetImage("assets/images/avatar.png",)
+                                          : NetworkImage(_userController.user.value.userPhoto) as ImageProvider,
+                                  
+                                  fit: BoxFit.cover)
                           ),
-                          SettingItem(
-                            width: width,
-                            height: height,
-                            leadingBackColor: Colors.green[600],
-                            icon: Icons.wallet_travel_outlined,
-                            title: "Payments",
-                            trailling: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              height: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.blue[700],
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "2 New",
-                                    style: AppThemes.lightWhiteText(width),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: width / 1.7,
+                              child: Text(
+                                    _userController.user.value.userName,
+                                    style: AppThemes.profileDevName(width),
                                   ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: AppConstantsColor.lightTextColor,
-                                    size: width / 30,
-                                  )
-                                ],
+                            ),
+                            Text(
+                              "Thành viên đồng",
+                              style: AppThemes.semiLightText(width),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            size: width / 15,
+                            Icons.edit_outlined,
+                            color: Colors.white,
+                          ))
+                      ],
+                    ),
+                    SizedBox(height: 15,)
+                  ]),
+                ),
+          
+                // Tài khoản
+                Container(
+                  width: width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: width,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[350]
+                        ),
+                        child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            child: Text(
+                              "Tài khoản",
+                              style: AppThemes.normalText(width),
+                              )
+                        )),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SettingItem(
+                              width: width,
+                              height: height,
+                              leadingBackColor: Colors.green[600],
+                              icon: Icons.wallet_travel_outlined,
+                              title: "Thông tin tài khoản",
+                              trailling: Icon(
+                                Icons.arrow_forward_ios,
+                                color: AppConstantsColor.darkTextColor,
+                                size: width / 30,
                               ),
                             ),
-                          ),
-                          SettingItem(
-                            width: width,
-                            height: height,
-                            leadingBackColor: Colors.yellow[600],
-                            icon: Icons.archive,
-                            title: "Achievement's",
-                            trailling: Container(
-                              height: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
+                            SettingItem(
+                              width: width,
+                              height: height,
+                              leadingBackColor: Colors.yellow[600],
+                              icon: Icons.archive,
+                              title: "Tài khoản / thẻ ngân hàng",
+                              trailling: Container(
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: AppConstantsColor.darkTextColor,
+                                  size: width / 30,
+                                ),
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                            ),
+                            SettingItem(
+                              width: width,
+                              height: height,
+                              leadingBackColor: Colors.grey[400],
+                              icon: Icons.location_on_outlined,
+                              title: "Địa chỉ",
+                              trailling: Icon(
+                                Icons.arrow_forward_ios,
+                                color: AppConstantsColor.darkTextColor,
+                                size: width / 30,
+                              ),
+                            ),
+                          ],
+                        )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+          
+                // Cài đặt
+                Container(
+                  width: width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: width,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[350]
+                        ),
+                        child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            child: Text(
+                              "Cài đặt",
+                              style: AppThemes.normalText(width),
+                              )
+                        )),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SettingItem(
+                              width: width,
+                              height: height,
+                              leadingBackColor: Colors.blue[600],
+                              icon: Icons.notifications,
+                              title: "Cài đặt thông báo",
+                              trailling: Icon(
+                                Icons.arrow_forward_ios,
+                                color: AppConstantsColor.darkTextColor,
+                                size: width / 30,
+                              ),
+                            ),
+                            SettingItem(
+                              width: width,
+                              height: height,
+                              leadingBackColor: Colors.orange[400],
+                              icon: Icons.language_outlined,
+                              title: "Ngôn ngữ / Language",
+                              trailling: Icon(
+                                Icons.arrow_forward_ios,
+                                color: AppConstantsColor.darkTextColor,
+                                size: width / 30,
+                              ),
+                            ),
+                            SettingItem(
+                              width: width,
+                              height: height,
+                              leadingBackColor: Colors.grey[600],
+                              icon: isDarkMode ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
+                              title: "Chủ đề",
+                              trailling: Row(
                                 children: [
+                                  Container(
+                                  child: Text(
+                                    isDarkMode ? "Tối" : "Sáng",
+                                    style: AppThemes.normalText(width),
+                                  ),
+                                  ),
+                                  SizedBox(width: 5,),
                                   Icon(
                                     Icons.arrow_forward_ios,
                                     color: AppConstantsColor.darkTextColor,
@@ -258,115 +272,99 @@ class _BodyProfileState extends State<BodyProfile> {
                                 ],
                               ),
                             ),
-                          ),
-                          SettingItem(
-                            width: width,
-                            height: height,
-                            leadingBackColor: Colors.grey[400],
-                            icon: Icons.shield,
-                            title: "Privacy",
-                            trailling: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              height: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.red[500],
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text("Action Needed",
-                                      style: AppThemes.lightWhiteText(width)),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: AppConstantsColor.lightTextColor,
-                                    size: width / 30,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+          
+                // bottomSection
+                Container(
+                  // margin: const EdgeInsets.symmetric(horizontal: 10),
+                  width: width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: width,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[350]
+                        ),
+                        child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            child: Text(
+                              "Bảng điều khiển",
+                              style: AppThemes.normalText(width),
+                              )
+                        )),
+                      const SizedBox(
+                        height: 15,
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-                  // bottomSection
-                  FadeAnimation(
-                    delay: 2.5,
-                    child: Container(
-                      width: width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "My Account",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey,
-                                fontSize: 15),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 6),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Switch to Other Account",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.blue[600],
-                                      fontSize: 17),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    _signOut;
-                                  },
-                                  child: Text(
-                                    "Log Out",
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Chuyển tài khoản",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.red[500],
-                                        fontSize: 18),
+                                        color: Colors.blue[500],
+                                        fontSize: 16),
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _signOut();
+                                      print("log out");
+                                    },
+                                    child: Text(
+                                      "Đăng xuất",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.red[500],
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                  SizedBox(height: 5,)
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              ),
+                    ],
+                  ),
+                )
+              ],
             ),
-          ));
+          ),
+        ));
   }
 
   _signOut() async {
     log("log out");
     await _auth.signOut();
-    Get.to(SigninScreen());
+    Get.to(const SigninScreen());
   }
 
   void getUserName() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final uid = prefs.getString('uid');
-    final user = await _user.getUserByID(uid!);
-    if (user != null) {
-      _signinController.setUserName(user["username"]);
-      _signinController.isLoading.value = false;
-      log(user["username"]);
+    final res = await _user.getUserByID(uid!);
+    if (res != null) {
+      final user = User.fromJson(res);
+      _userController.setUser(user);
+      _userController.isLoading.value = false;
     } else {
       log("user null");
     }

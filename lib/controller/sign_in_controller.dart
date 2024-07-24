@@ -1,17 +1,11 @@
 import 'package:get/get.dart';
+import 'package:sneaker_shop_app/data/models/user.dart';
 
-class SignInController extends GetxController {
-  final username = ''.obs;
-  RxString email = ''.obs;
-  final password = ''.obs;
+class UserController extends GetxController {
   final isLoading = true.obs;
-
-  void getInputEmail(String e) {
-    email.value = e;
-  }
-
-  void setUserName(String name) {
-    username.value = name;
-    isLoading.value = false;
+   Rx<User> user =
+      User(uid: "", userName: "", email: "", password: "", userPhoto: "").obs;
+  void setUser(User _user) {
+    user.value.setUser(_user);
   }
 }

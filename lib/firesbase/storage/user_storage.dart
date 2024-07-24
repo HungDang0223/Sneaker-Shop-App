@@ -13,7 +13,7 @@ class UserCollection {
   Future<Map<String, dynamic>?> getUserByID(String id) async {
     try {
 
-      QuerySnapshot query = await _user.where("id", isEqualTo: id).get();
+      QuerySnapshot query = await _user.where("uid", isEqualTo: id).get();
       
       if (query.docs.isNotEmpty) {
         return query.docs.first.data() as Map<String, dynamic>;

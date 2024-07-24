@@ -1,7 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:sneaker_shop_app/view/auth/screens/sign_in_with_phonenumber.dart';
+import 'package:sneaker_shop_app/view/navigator.dart';
 
 import '../../../firesbase/authentification/auth_service.dart';
 import '../../../theme/custom_app_theme.dart';
@@ -36,30 +39,31 @@ class _SignupScreenState extends State<SignupScreen> {
 
     return Scaffold(
       backgroundColor: Color(0xfff2f2f2),
-      appBar: AppBar(
-        backgroundColor: Color(0xfff2f2f2),
-        elevation: 0,
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              size: width/ 18,
-              color: AppConstantsColor.hightlightTextColor,
-            )),
-        title: Text(
-          "Đăng ký",
-          style: AppThemes.logAppBarTitle(width),
-        ),
-      ),
-      body: Container(
+      // appBar: AppBar(
+      //   backgroundColor: Color(0xfff2f2f2),
+      //   elevation: 0,
+      //   leading: IconButton(
+      //       onPressed: () {
+      //         Get.back();
+      //       },
+      //       icon: Icon(
+      //         Icons.arrow_back,
+      //         size: width/ 18,
+      //         color: AppConstantsColor.hightlightTextColor,
+      //       )),
+      //   title: Text(
+      //     "Đăng ký",
+      //     style: AppThemes.logAppBarTitle(width),
+      //   ),
+      // ),
+      body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: 30),
             Container(
-                child: Text(
-              "Đăng ký",
-              style: AppThemes.logTitle(width),
+              child: Text(
+                "Đăng ký",
+                style: AppThemes.logTitle(width),
             )),
             SizedBox(
               height: height / 14,
@@ -72,7 +76,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     height: height / 30,
                   ),
                   Container(
-                    height: height / 13,
+                    height: height / 14,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -91,7 +95,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     height: 10,
                   ),
                   Container(
-                    height: height / 13,
+                    height: height / 14,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -110,7 +114,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     height: 10,
                   ),
                   Container(
-                    height: height / 13,
+                    height: height / 14,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -133,9 +137,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: Container(
                       width: double.infinity,
                       alignment: Alignment.center,
-                      height: height / 13,
+                      height: height / 14,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(20),
                           gradient: LinearGradient(colors: [
                             Color.fromRGBO(143, 148, 251, 1),
                             Color.fromRGBO(143, 148, 251, .6),
@@ -172,6 +176,103 @@ class _SignupScreenState extends State<SignupScreen> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
+            Text("Hoặc"),
+            SizedBox(
+              height: 20,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.to(LoginWithPhoneNumber());
+                  },
+                  child: Container(
+                    width: width / 1.2,
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.phone_iphone_outlined, size: 22,),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              "Tiếp tục bằng số điện thoại",
+                              style: AppThemes.boldText(width),
+                            )
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10,),
+                GestureDetector(
+                  onTap: () {
+                    _signinWithGoogle();
+                  },
+                  child: Container(
+                    width: width / 1.2,
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          "assets/images/google.png",
+                          height: 20,
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Text("Tiếp tục với Google", style: AppThemes.boldText(width),)
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _auth.signInWithGoogle();
+                  },
+                  child: Container(
+                    width: width / 1.2,
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          "assets/images/facebook.png",
+                          height: 20,
+                          width: 20,
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Center(
+                            child: Text("Tiếp tục với Facebook", style: AppThemes.boldText(width),)
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),
@@ -186,6 +287,15 @@ class _SignupScreenState extends State<SignupScreen> {
       Get.to(SigninScreen());
     } else {
       log("Create faild");
+    }
+  }
+  _signinWithGoogle() async {
+    final res = await _auth.signInWithGoogle();
+    if (res != null) {
+      log("Sign in with google success");
+      Get.off(MainNavigator());
+    } else {
+      log("Sign in with google failed");
     }
   }
 }

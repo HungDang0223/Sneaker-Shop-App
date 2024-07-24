@@ -119,7 +119,6 @@ class _BodyState extends State<Body> {
                     ShoeModel model = listProduct[index];
                     return GestureDetector(
                       onTap: () {
-                        log("next");
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -261,117 +260,137 @@ class _BodyState extends State<Body> {
     return Container(
       width: width,
       height: height / 3.8,
-      child: ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: availableShoes.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (ctx, index) {
-            ShoeModel model = availableShoes[index];
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (ctx) => DetailScreen(
-                      model: model,
-                      isComeFromMoreSection: true,
-                    ),
-                  ),
-                );
-              },
+      child: FutureBuilder(
+        future: _productStorage.getProductFromFirestoreFilterByBrand(categories[selectedIndexOfCategory]),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
               child: Container(
-                margin: EdgeInsets.all(10),
-                width: width / 2.3,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: -20,
-                      top: 4,
-                      child: FadeAnimation(
-                        delay: 1,
-                        child: RotationTransition(
-                            turns: AlwaysStoppedAnimation(-45 / 360),
-                            child: Center(
-                                child: FadeAnimation(
-                                    delay: 1.5,
-                                    child: Container(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 3),
-                                      alignment: Alignment.center,
-                                      width: width / 6,
-                                      color: Colors.red,
-                                      child: Text("NEW",
-                                          style:
-                                              AppThemes.homeGridNewText(width)),
-                                    )))),
-                      ),
-                    ),
-                    Positioned(
-                      top: -5,
-                      right: -5,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.favorite_border,
-                          color: AppConstantsColor.loveIconColor,
+                height: 30,
+                width: 30,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Text('Error when get product by brand: $snapshot.error');
+          } else if (snapshot.hasData) {
+            List<ShoeModel> listProduct = snapshot.data!;
+            return ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: listProduct.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (ctx, index) {
+                ShoeModel model = listProduct[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (ctx) => DetailScreen(
+                          model: model,
+                          isComeFromMoreSection: true,
                         ),
                       ),
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                    width: width / 2.3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
                     ),
-                    Positioned(
-                        top: height / 25,
-                        left: width / 2.3 / 11,
-                        child: Column(
-                          children: [
-                            FadeAnimation(
-                              delay: 1.5,
-                              child: RotationTransition(
-                                turns: AlwaysStoppedAnimation(-15 / 360),
-                                child: Container(
-                                  width: width / 3,
-                                  height: height / 9,
-                                  child: Hero(
-                                    tag: model.model,
-                                    child: Image(
-                                      image: AssetImage(model.imgAddress),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: -20,
+                          top: 4,
+                          child: FadeAnimation(
+                            delay: 1,
+                            child: RotationTransition(
+                                turns: AlwaysStoppedAnimation(-45 / 360),
+                                child: Center(
+                                    child: FadeAnimation(
+                                        delay: 1.5,
+                                        child: Container(
+                                          padding:
+                                              EdgeInsets.symmetric(vertical: 3),
+                                          alignment: Alignment.center,
+                                          width: width / 6,
+                                          color: Colors.red,
+                                          child: Text("NEW",
+                                              style:
+                                                  AppThemes.homeGridNewText(width)),
+                                        )))),
+                          ),
+                        ),
+                        Positioned(
+                          top: -5,
+                          right: -5,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.favorite_border,
+                              color: AppConstantsColor.loveIconColor,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                            top: height / 25,
+                            left: width / 2.3 / 11,
+                            child: Column(
+                              children: [
+                                FadeAnimation(
+                                  delay: 1.5,
+                                  child: RotationTransition(
+                                    turns: AlwaysStoppedAnimation(-15 / 360),
+                                    child: Container(
+                                      width: width / 3,
+                                      height: height / 9,
+                                      child: Hero(
+                                        tag: model.model,
+                                        child: Image(
+                                          image: NetworkImage(model.imgUrl),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            // Spacer(),
-                            FadeAnimation(
-                              delay: 2,
-                              child: FittedBox(
-                                child: Text("${model.brand} ${model.model}",
-                                    style:
-                                        AppThemes.homeGridNameAndModel(width)),
-                              ),
-                            ),
-                            FadeAnimation(
-                              delay: 2.2,
-                              child: FittedBox(
-                                child: Text(
-                                    "\$${model.price.toStringAsFixed(2)}",
-                                    style: AppThemes.homeGridPrice(width)),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 50,
-                            )
-                          ],
-                        )),
-                  ],
-                ),
-              ),
-            );
-          }),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                // Spacer(),
+                                FadeAnimation(
+                                  delay: 2,
+                                  child: FittedBox(
+                                    child: Text("${model.brand} ${model.model}",
+                                        style:
+                                            AppThemes.homeGridNameAndModel(width)),
+                                  ),
+                                ),
+                                FadeAnimation(
+                                  delay: 2.2,
+                                  child: FittedBox(
+                                    child: Text(
+                                        "\$${model.price.toStringAsFixed(2)}",
+                                        style: AppThemes.homeGridPrice(width)),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50,
+                                )
+                              ],
+                            )),
+                      ],
+                    ),
+                  ),
+                );
+              });
+          } else {
+            return Center(child: Text("No Data"),);
+          }
+        },
+      ),
     );
   }
 

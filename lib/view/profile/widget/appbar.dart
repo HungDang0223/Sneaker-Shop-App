@@ -8,10 +8,10 @@ PreferredSize? customAppBarProfile(ctx) {
   return PreferredSize(
     preferredSize: Size.fromHeight(60),
     child: AppBar(
-     
       centerTitle: true,
       elevation: 0,
       backgroundColor: Colors.transparent,
+      // foregroundColor: Colors.transparent,
       title: Padding(
         padding: EdgeInsets.only(
           top: 8.0,

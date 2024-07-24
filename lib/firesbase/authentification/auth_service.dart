@@ -17,9 +17,10 @@ class AuthService {
           email: email, password: password);
       final user = <String, dynamic>{
         "uid": res.user!.uid,
-        "username": "so_" + res.user!.uid,
+        "username": res.user!.displayName ?? "so_"+res.user!.uid,
         "email": email,
-        "password": password
+        "password": password,
+        "userPhoto": res.user?.photoURL ?? ""
       };
       // if user is not exist, add new user to fire store
       QuerySnapshot query = await _user.where("email", isEqualTo: email).get();
@@ -52,7 +53,8 @@ class AuthService {
     return null;
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<User?> signInWithGoogle() async {
+    final _prefs = await SharedPreferences.getInstance();
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -65,9 +67,23 @@ class AuthService {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-
-    // Once signed in, return the UserCredential
-    return await _auth.signInWithCredential(credential);
+    final userCredential = await _auth.signInWithCredential(credential);
+    final user = userCredential.user;
+    QuerySnapshot query = await _user.where("email", isEqualTo: user!.email).get();
+    if (query.docs.isEmpty) {
+      final data = <String, dynamic> {
+        "uid": user.uid,
+        "userName": user.displayName ?? "so_"+user.uid,
+        "email": user.email,
+        "userPhoto": user.photoURL
+      };
+      _prefs.setString("uid", user.uid);
+      await _user.doc(user.uid).set(data);
+      return user;
+    } else {
+      return null;
+    }
+    
   }
 
   Future<void> signOut() async {
@@ -81,23 +97,4 @@ class AuthService {
     }
   }
 
-  Future<void> addProduct() async {
-    try {
-      const product = <String, dynamic>{
-        "brand": "Nike",
-        "productName": "AIR JORDAN LOW",
-        "modelColor": "brown",
-        "color": "Color(0xffD68043)",
-        "price": 150.00,
-        "imgUrl":
-            "https://firebasestorage.googleapis.com/v0/b/sneaker-shoes-shop.appspot.com/o/shoes%2Fnike%2Fnike7.png?alt=media",
-        "description":
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt laoreet enim, eget sodales ligula semper at. Sed id aliquet eros, nec vestibulum felis. Nunc maximus aliquet aliquam. Quisque eget sapien at velit cursus tincidunt. Duis tempor lacinia erat eget fermentum."
-      };
-      await _product.add(product);
-      log("add product success");
-    } catch (e) {
-      log("add prodcut catch error $e");
-    }
-  }
 }

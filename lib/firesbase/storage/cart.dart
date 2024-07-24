@@ -1,6 +1,4 @@
 import 'dart:developer';
-import 'dart:js_util';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sneaker_shop_app/data/models/shoe_model.dart';
@@ -21,8 +19,8 @@ class Cart {
     final _items = _cart.doc(uid).collection("items");
     final product = {
       "productId": productInfo.productId,
-      "price": productInfo.price,
-      "modelColor": "#${productInfo.modelColor.value.toRadixString(16).substring(2)}",
+      // "price": productInfo.price,
+      // "modelColor": "#${productInfo.modelColor.value.toRadixString(16).substring(2)}",
       "size": size,
       "quantity": quantity
     };
@@ -41,34 +39,53 @@ class Cart {
       .catchError((error) {
         print("Add to cart catch error: $error");
       });
-
     }
     } catch (e) {
       print("Add to cart catch err: $e");
     }
   }
 
-  Future<List<Map<String, dynamic>>?> getProductByUID() async {
+  Stream<List<Map<String, dynamic>>?> getProductByUID() async* {
     final prefs = await SharedPreferences.getInstance();
     final _productStorage = ProductStorage();
-
     final uid = prefs.getString('uid');
-    try {
-      final _items = await _cart.doc(uid).collection("items").get();
-    final List<Map<String, dynamic>> listCartItem = await Future.wait(
-      _items.docs.map((cartItem) async {
-        final cartItemData = cartItem.data();
-        final product = await _productStorage.getProductById(cartItemData["productId"]);
-        return {
-          "product": product,
-          "quantity": cartItemData["quantity"],
-          "size": cartItemData["size"]
-        };
-      }).toList(),);
-    return listCartItem;
-    } catch (e) {
-      print("lay san pham trong gio hang gap loi $e");
+
+    final _cartStream = await _cart.doc(uid).collection("items").snapshots();
+    await for (var snapshot in _cartStream) {
+      try {
+        final List<Map<String, dynamic>> listCartItem = await Future.wait(
+          snapshot.docs.map((cartItem) async {
+            final cartItemData = cartItem.data();
+            final product = await _productStorage.getProductById(cartItemData["productId"]);
+            return {
+              "product": product,
+              "quantity": cartItemData["quantity"],
+              "size": cartItemData["size"]
+            };
+          }).toList());
+        yield  listCartItem;
+      } catch (e) {
+        print("Lấy sản phẩm trong giỏ hàng gặp lỗi: $e");
+        yield  [];
+      }
     }
-    return null;
+  }
+
+  Future<void> updateItemCartInfo(String productId,int newQuantity) async {
+    final prefs = await SharedPreferences.getInstance();
+    final uid = prefs.getString('uid');
+    _cart.doc(uid).collection("items").doc(productId).update({
+      "quantity": newQuantity
+    }).catchError((e) {
+      print("Cập nhật sp gặp lỗi: $e");
+    });
+  }
+
+  void deleteItemFromCart(String productId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final uid = prefs.getString('uid');
+    _cart.doc(uid).collection("items").doc(productId).delete().catchError((e) {
+      print("Xoa sp gap loi: $e");
+    });
   }
 }

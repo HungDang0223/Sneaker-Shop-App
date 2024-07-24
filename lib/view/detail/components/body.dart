@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../animation/fadeanimation.dart';
-import '../../../../../utils/app_methods.dart';
 import '../../../../../utils/constants.dart';
 import '../../../data/models/shoe_model.dart';
 import '../../../data/dummy_data.dart';
@@ -191,7 +190,6 @@ class details extends State<DetailsBody> {
         height: height / 15,
         color: AppConstantsColor.materialButtonColor,
         onPressed: () {
-          AppMethods.addToCart(widget.model, context);
           _cart.addToCart(widget.model, 30, quantity);
         },
         child: Text(

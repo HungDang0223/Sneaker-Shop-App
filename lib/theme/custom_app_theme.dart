@@ -81,17 +81,17 @@ class AppThemes {
     fontSize: w/8,
   );
   static TextStyle bagProductModel(double w) => TextStyle(
-    fontSize: w/20,
+    fontSize: w/22,
     fontWeight: FontWeight.w500,
     color: AppConstantsColor.darkTextColor,
   );
   static TextStyle bagProductPrice(double w) => TextStyle(
-    fontSize: w/20,
+    fontSize: w/22,
     fontWeight: FontWeight.bold,
     color: AppConstantsColor.darkTextColor,
   );
   static TextStyle bagProductNumOfShoe(double w) =>
-      TextStyle(fontSize: w/20, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: w/22, fontWeight: FontWeight.bold);
   static TextStyle bagTotalPrice(double w) => TextStyle(
       color: AppConstantsColor.darkTextColor,
       fontWeight: FontWeight.w600,
@@ -99,20 +99,20 @@ class AppThemes {
   static TextStyle bagSumOfItemOnBag(double w) => TextStyle(
       color: AppConstantsColor.darkTextColor,
       fontWeight: FontWeight.bold,
-      fontSize: w/20);
+      fontSize: w/22);
 
   /// Profile
   static TextStyle profileAppBarTitle(double w) => TextStyle(
     fontSize: w/20,
     fontWeight: FontWeight.bold,
-    color: AppConstantsColor.darkTextColor,
+    color: AppConstantsColor.whiteTextColor,
   );
   static TextStyle profileRepeatedListTileTitle(double w) => TextStyle(
     fontWeight: FontWeight.bold,
     color: AppConstantsColor.darkTextColor,
-    fontSize: w/15);
+    fontSize: w/23);
   static TextStyle profileDevName(double w) =>
-    TextStyle(fontSize: w/20, fontWeight: FontWeight.w700);
+    TextStyle(fontSize: w/22, fontWeight: FontWeight.w700, color: Colors.white);
 
 // Log in, out
   static TextStyle logAppBarTitle(double w) => TextStyle(
@@ -136,6 +136,21 @@ class AppThemes {
     fontWeight: FontWeight.w600
   );
 // for all
+  static TextStyle normalText(double w) => TextStyle(
+    fontSize: w/23,
+    color: AppConstantsColor.darkTextColor,
+    fontWeight: FontWeight.normal
+  );
+  static TextStyle boldText(double w) => TextStyle(
+    fontSize: w/22,
+    color: AppConstantsColor.darkTextColor,
+    fontWeight: FontWeight.bold
+  );
+  static TextStyle superBoldText(double w) => TextStyle(
+    fontSize: w/16,
+    color: AppConstantsColor.darkTextColor,
+    fontWeight: FontWeight.bold
+  );
   static TextStyle appBarText(double w) => TextStyle(
     fontSize: w/12,
     color: AppConstantsColor.darkTextColor,
@@ -147,13 +162,13 @@ class AppThemes {
     fontWeight: FontWeight.w400
   );
   static TextStyle lightWhiteText(double w) => TextStyle(
-    fontSize: w/28,
+    fontSize: w/30,
     color: AppConstantsColor.whiteTextColor,
     fontWeight: FontWeight.w400
   );
   static TextStyle semiLightText(double w) => TextStyle(
     fontSize: w/30,
-    color: AppConstantsColor.semiLightTextColor,
+    color: Colors.grey[400],
     fontWeight: FontWeight.w400
   );
 

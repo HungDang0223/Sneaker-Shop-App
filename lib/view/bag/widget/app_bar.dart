@@ -5,7 +5,6 @@ import '../../../theme/custom_app_theme.dart';
 PreferredSize? customBagAppBar(ctx) {
   final width = MediaQuery.of(ctx).size.width;
   final height = MediaQuery.of(ctx).size.height;
-  int lengthsOfItemsOnBag = itemsOnBag.length;
   return PreferredSize(
     preferredSize: Size.fromHeight(height/15),
     child: AppBar(
@@ -24,7 +23,7 @@ PreferredSize? customBagAppBar(ctx) {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Total ${lengthsOfItemsOnBag} Items",
+              "Total 1 Items",
               style: AppThemes.bagTotalPrice(width),
             ),
             SizedBox(width: 15,)

@@ -11,7 +11,6 @@ class Profile extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppConstantsColor.backgroundColor,
-        appBar: customAppBarProfile(context),
         body: const BodyProfile(),
       ),
       
