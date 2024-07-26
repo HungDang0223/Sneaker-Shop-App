@@ -1,6 +1,8 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sneaker_shop_app/controller/navigator_controller.dart';
 
 import '../utils/constants.dart';
 import 'bag/bag_screen.dart';
@@ -13,24 +15,14 @@ class MainNavigator extends StatefulWidget {
 }
 
 class _MainNavigatorState extends State<MainNavigator> {
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
+  final _navController = Get.put(NavigatorController());
 
-  int _selectedIndex = 0;
   List<Widget> _screen = [
     HomeScreen(),
     MyBagScreen(),
     Profile(),
   ];
-
-  void _onPageChanged(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  void _onItemTapped(int selectedIndex) {
-    _pageController.jumpToPage(selectedIndex);
-  }
 
   @override
   void dispose() {
@@ -40,30 +32,32 @@ class _MainNavigatorState extends State<MainNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screen[_selectedIndex],
-      bottomNavigationBar: CustomNavigationBar(
-        iconSize: 27.0,
-        bubbleCurve: Curves.linear,
-        selectedColor: AppConstantsColor.materialButtonColor,
-        strokeColor: AppConstantsColor.materialButtonColor,
-        unSelectedColor: Color(0xffacacac),
-        backgroundColor: Colors.white,
-        scaleFactor: 0.1,
-        items: [
-          CustomNavigationBarItem(
-            icon: Icon(CupertinoIcons.home),
+    return Obx(() =>
+        Scaffold(
+          body: _screen[_navController.selectedIndex.value],
+          bottomNavigationBar: CustomNavigationBar(
+            iconSize: 27.0,
+            bubbleCurve: Curves.linear,
+            selectedColor: AppConstantsColor.materialButtonColor,
+            strokeColor: AppConstantsColor.materialButtonColor,
+            unSelectedColor: Color(0xffacacac),
+            backgroundColor: Colors.white,
+            scaleFactor: 0.1,
+            items: [
+              CustomNavigationBarItem(
+                icon: Icon(CupertinoIcons.home),
+              ),
+              CustomNavigationBarItem(
+                icon: Icon(CupertinoIcons.shopping_cart),
+              ),
+              CustomNavigationBarItem(
+                icon: Icon(CupertinoIcons.person),
+              ),
+            ],
+            onTap: _navController.changeIndex,
+            currentIndex: _navController.selectedIndex.value,
           ),
-          CustomNavigationBarItem(
-            icon: Icon(CupertinoIcons.shopping_cart),
-          ),
-          CustomNavigationBarItem(
-            icon: Icon(CupertinoIcons.person),
-          ),
-        ],
-        onTap: _onPageChanged,
-        currentIndex: _selectedIndex,
-      ),
+        )
     );
   }
 }

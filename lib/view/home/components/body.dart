@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sneaker_shop_app/widget/cart.dart';
 
 import '../../../../animation/fadeanimation.dart';
 import '../../../../utils/constants.dart';
@@ -23,6 +25,8 @@ class _BodyState extends State<Body> {
   int selectedIndexOfCategory = 0;
   int selectedIndexOfFeatured = 1;
 
+  final _searchEdittingController = TextEditingController();
+
   final _productStorage = ProductStorage();
 
   @override
@@ -35,6 +39,8 @@ class _BodyState extends State<Body> {
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
+            searchBarWidget(width, height),
+            SizedBox(height: 20),
             topCategoriesWidget(width, height),
             SizedBox(height: 10),
             middleCategoriesWidget(width, height),
@@ -46,7 +52,38 @@ class _BodyState extends State<Body> {
       ),
     );
   }
-
+// search bar
+  searchBarWidget(w, h) {
+    return Row(
+      children: [
+        Expanded(
+          child:Container(
+            alignment: Alignment.centerLeft,
+            height: 40,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(6)
+            ),
+            child: TextField(
+              controller: _searchEdittingController,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search, size: 20,),
+                hintText: "Search Products",
+                hintStyle: AppThemes.hintText(w),
+                border: InputBorder.none,
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.close, size: 18, color: Colors.grey,),
+                  onPressed: () { _searchEdittingController.clear(); },)
+              ),
+              cursorHeight: h/100*3,
+            ),
+          ),
+        ),
+        SizedBox(width: 10,),
+        CustomCart(quantityProductInCart: 1,),
+      ]
+    );
+  }
 // Top Categories Widget Components
   topCategoriesWidget(width, height) {
     return Row(
@@ -138,7 +175,7 @@ class _BodyState extends State<Body> {
                               width: width / 1.7,
                               decoration: BoxDecoration(
                                 color: model.modelColor,
-                                borderRadius: BorderRadius.circular(25),
+                                borderRadius: BorderRadius.circular(15),
                               ),
                             ),
                             Positioned(
@@ -165,12 +202,13 @@ class _BodyState extends State<Body> {
                                 ),
                               ),
                             ),
+                            SizedBox(height: 10,),
                             Positioned(
                               top: width / 10,
                               left: 10,
                               child: FadeAnimation(
                                 delay: 1.5,
-                                child: Text(model.model,
+                                child: Text(model.model.toUpperCase(),
                                     style: AppThemes.homeProductModel(width)),
                               ),
                             ),
@@ -199,16 +237,6 @@ class _BodyState extends State<Body> {
                                 ),
                               ),
                             ),
-                            Positioned(
-                              bottom: 0,
-                              left: width / 2.1,
-                              child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.arrow_circle_right,
-                                  size: width / 18),
-                              ),
-                            )
                           ],
                         ),
                       ),

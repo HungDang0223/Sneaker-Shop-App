@@ -73,23 +73,24 @@ class AuthService {
     if (query.docs.isEmpty) {
       final data = <String, dynamic> {
         "uid": user.uid,
-        "userName": user.displayName ?? "so_"+user.uid,
+        "userName": user.displayName ?? "so_${user.uid}",
         "email": user.email,
         "userPhoto": user.photoURL
       };
       _prefs.setString("uid", user.uid);
       await _user.doc(user.uid).set(data);
-      return user;
+
     } else {
-      return null;
+      _prefs.setString("uid", user.uid);
     }
-    
+    return user;
   }
 
   Future<void> signOut() async {
     final prefs = await SharedPreferences.getInstance();
     try {
       await _auth.signOut();
+      await GoogleSignIn().signOut();
       prefs.remove('uid');
       log("sign out success");
     } catch (e) {

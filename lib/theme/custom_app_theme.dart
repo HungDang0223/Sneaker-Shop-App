@@ -112,7 +112,7 @@ class AppThemes {
     color: AppConstantsColor.darkTextColor,
     fontSize: w/23);
   static TextStyle profileDevName(double w) =>
-    TextStyle(fontSize: w/22, fontWeight: FontWeight.w700, color: Colors.white);
+    TextStyle(fontSize: w/21, fontWeight: FontWeight.w700, color: Colors.white);
 
 // Log in, out
   static TextStyle logAppBarTitle(double w) => TextStyle(
@@ -171,5 +171,9 @@ class AppThemes {
     color: Colors.grey[400],
     fontWeight: FontWeight.w400
   );
-
+  static TextStyle hintText(double w) => TextStyle(
+      fontSize: w/24,
+      color: Colors.grey[300],
+      fontWeight: FontWeight.w500
+  );
 }

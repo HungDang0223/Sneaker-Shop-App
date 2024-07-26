@@ -55,7 +55,7 @@ class _BodyProfileState extends State<BodyProfile> {
                 //topProfilePicAndName
                 Container(
                   color: Color(0xff337ab7),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.only(left: 10),
                   child: 
                   Column(
                     children: [
@@ -68,7 +68,7 @@ class _BodyProfileState extends State<BodyProfile> {
                             )
                           ),
                           Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: Alignment.centerRight,
                               child: IconButton(
                                 icon: Icon(Icons.more_vert),
                                 onPressed: () {},
@@ -81,8 +81,8 @@ class _BodyProfileState extends State<BodyProfile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: width/6,
-                          height: width/6,
+                          width: 55,
+                          height: 55,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                               image: DecorationImage(
