@@ -18,7 +18,7 @@ class ProductStorage {
       final res = await _product.get();
       return res.size.toString();
     } catch (e) {
-      log("loi o day ne" + e.toString());
+      log("Get product from firestore catch error: " + e.toString());
     }
     return "";
   }
@@ -34,9 +34,9 @@ class ProductStorage {
             .toList();
             
         return listProducts;
-      } else log("ket qua bi rong");
+      } else log("Get product filter by brand is null");
     } catch (e) {
-      log("lay san pham gap loi: "+e.toString());
+      log("Get product filter by brand catch error: "+e.toString());
     }
     return null;
   }

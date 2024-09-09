@@ -4,7 +4,7 @@ import 'package:sneaker_shop_app/data/models/user.dart';
 class UserController extends GetxController {
   final isLoading = true.obs;
    Rx<User> user =
-      User(uid: "", userName: "", email: "", password: "", userPhoto: "").obs;
+      User(uid: "", userName: "", email: "", password: "", userPhoto: "", address: "").obs;
   void setUser(User _user) {
     user.value.setUser(_user);
   }

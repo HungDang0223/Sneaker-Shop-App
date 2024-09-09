@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sneaker_shop_app/view/profile/screens/edit_profile.dart';
 
 import '../../../../animation/fadeanimation.dart';
+import '../../../controller/navigator_controller.dart';
 import '../../../controller/sign_in_controller.dart';
 import '../../../data/models/models.dart';
 import '../../../../utils/constants.dart';
@@ -32,6 +34,7 @@ class _BodyProfileState extends State<BodyProfile> {
 
   final _auth = AuthService();
   final UserController _userController = Get.put(UserController());
+  final _navController = Get.put(NavigatorController());
   final _user = UserCollection();
 
   int statusCurrentIndex = 0;
@@ -114,7 +117,9 @@ class _BodyProfileState extends State<BodyProfile> {
                         ),
                         const Spacer(),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.to(EditProfileScreen());
+                          },
                           icon: Icon(
                             size: width / 15,
                             Icons.edit_outlined,
@@ -354,15 +359,15 @@ class _BodyProfileState extends State<BodyProfile> {
   _signOut() async {
     log("log out");
     await _auth.signOut();
+    _navController.isLoading.value = false;
     Get.to(const SigninScreen());
   }
 
   void getUserName() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final uid = prefs.getString('uid');
-    final res = await _user.getUserByID(uid!);
-    if (res != null) {
-      final user = User.fromJson(res);
+    final user = await _user.getUserByID(uid!);
+    if (user != null) {
       _userController.setUser(user);
       _userController.isLoading.value = false;
     } else {

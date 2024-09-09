@@ -10,7 +10,7 @@ import '../../../firesbase/authentification/auth_service.dart';
 import '../../../firesbase/storage/cart.dart';
 import '../../../theme/custom_app_theme.dart';
 import '../../../utils/constants.dart';
-import '../../../view/bag/widget/empty_list.dart';
+import '../../../view/cart/widget/empty_list.dart';
 import '../../../data/dummy_data.dart';
 
 class BodyBagView extends StatefulWidget {
@@ -107,7 +107,6 @@ class _BodyBagViewState extends State<BodyBagView>
                     // setState(() {
                     //   quantity = currentItem["quantity"];
                     // });
-                    
                     return FadeAnimation(
                       delay: index / 4,
                       child: Container(

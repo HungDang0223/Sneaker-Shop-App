@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:sneaker_shop_app/controller/navigator_controller.dart';
 import 'package:sneaker_shop_app/view/auth/screens/sign_in_with_phonenumber.dart';
 import 'package:sneaker_shop_app/view/navigator.dart';
 
@@ -21,6 +22,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final _auth = AuthService();
 
+  final _navController = Get.put(NavigatorController());
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -39,23 +41,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
     return Scaffold(
       backgroundColor: Color(0xfff2f2f2),
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xfff2f2f2),
-      //   elevation: 0,
-      //   leading: IconButton(
-      //       onPressed: () {
-      //         Get.back();
-      //       },
-      //       icon: Icon(
-      //         Icons.arrow_back,
-      //         size: width/ 18,
-      //         color: AppConstantsColor.hightlightTextColor,
-      //       )),
-      //   title: Text(
-      //     "Đăng ký",
-      //     style: AppThemes.logAppBarTitle(width),
-      //   ),
-      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -213,65 +198,6 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  GestureDetector(
-                    onTap: () {
-                      _signinWithGoogle();
-                    },
-                    child: Container(
-                      width: width / 1.2,
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: Color(0xffffffff),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            "assets/images/google.png",
-                            height: 20,
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Center(
-                              child: Text("Tiếp tục với Google", style: AppThemes.boldText(width),)
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _auth.signInWithGoogle();
-                    },
-                    child: Container(
-                      width: width / 1.2,
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: Color(0xffffffff),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            "assets/images/facebook.png",
-                            height: 20,
-                            width: 20,
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Center(
-                              child: Text("Tiếp tục với Facebook", style: AppThemes.boldText(width),)
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
                 ],
               ),
             ],
@@ -294,6 +220,7 @@ class _SignupScreenState extends State<SignupScreen> {
   _signinWithGoogle() async {
     final res = await _auth.signInWithGoogle();
     if (res != null) {
+      _navController.isLoading.value = true;
       log("Sign in with google success");
       Get.offAll(MainNavigator());
     } else {

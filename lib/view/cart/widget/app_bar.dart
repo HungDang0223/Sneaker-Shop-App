@@ -14,22 +14,10 @@ PreferredSize? customBagAppBar(ctx) {
       title: Padding(
         padding: EdgeInsets.only(top: 8.0),
         child: Text(
-          "My Bag",
+          "Giỏ hàng",
           style: AppThemes.appBarText(width)
         ),
       ),
-      actions: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "Total 1 Items",
-              style: AppThemes.bagTotalPrice(width),
-            ),
-            SizedBox(width: 15,)
-          ],
-        )
-      ],
     ),
   );
 }

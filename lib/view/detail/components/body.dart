@@ -1,4 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:sneaker_shop_app/controller/sign_in_controller.dart';
+import 'package:sneaker_shop_app/data/models/comment.dart';
+import 'package:sneaker_shop_app/view/detail/components/comment_view.dart';
+import 'package:sneaker_shop_app/view/detail/components/empty_comment_view.dart';
+import 'package:sneaker_shop_app/view/detail/widget/comment.dart';
 
 import '../../../../../animation/fadeanimation.dart';
 import '../../../../../utils/constants.dart';
@@ -21,6 +29,7 @@ class DetailsBody extends StatefulWidget {
 class details extends State<DetailsBody> {
 
   final _cart = Cart();
+  final _userController = Get.put(UserController());
 
   int? _isSelectedSize;
   int quantity = 1;
@@ -29,53 +38,58 @@ class details extends State<DetailsBody> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return Container(
-      width: width,
-      height: height * 1.1,
-      child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            topInformationWidget(width, height),
-            middleImgListWidget(width, height),
-            SizedBox(
-              height: 20,
-              width: width / 1.1,
-              child: Divider(
-                thickness: 1.4,
-                color: Colors.grey,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+    return Scaffold(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Container(
+            // height: height - height / 7,
               child: Column(
                 children: [
-                  nameAndPrice(width),
-                  SizedBox(height: 10),
-                  shoeInfo(width, height),
+                  topInformationWidget(width, height),
+                  middleImgListWidget(width, height),
                   SizedBox(
-                    height: 5,
+                    height: 20,
+                    width: width / 1.1,
+                    child: Divider(
+                      thickness: 1.4,
+                      color: Colors.grey,
+                    ),
                   ),
-                  moreDetailsText(width, height),
                   SizedBox(
                     height: 10,
                   ),
-                  endSizesAndButton(width, height),
-                  SizedBox(
-                    height: 20,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      children: [
+                        nameAndPrice(width),
+                        SizedBox(height: 10),
+                        shoeInfo(width, height),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        moreDetailsText(width, height),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        endSizesAndButton(width, height),
+                      ],
+                    ),
                   ),
-                  materialButton(width, height),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: 10,),
+                  // EmptyCommentView(width: width,height: height,)
+                  CommentView(width: width,height: height, model: widget.model),
+                  SizedBox(height: 50,)
                 ],
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            child: materialButton(width, height))
+        ]
       ),
     );
   }
@@ -186,15 +200,19 @@ class details extends State<DetailsBody> {
       delay: 3.5,
       child: MaterialButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        minWidth: width / 1.2,
+        minWidth: width,
         height: height / 15,
         color: AppConstantsColor.materialButtonColor,
         onPressed: () {
           _cart.addToCart(widget.model, 30, quantity);
         },
         child: Text(
-          "ADD TO BAG",
-          style: TextStyle(color: AppConstantsColor.lightTextColor),
+          "Thêm vào giỏ hàng",
+          style: TextStyle(
+              fontSize: width/22,
+              color: AppConstantsColor.whiteTextColor,
+              fontWeight: FontWeight.bold
+          ),
         ),
       ),
     );
@@ -265,7 +283,7 @@ class details extends State<DetailsBody> {
         padding: EdgeInsets.only(right: 280),
         height: height / 26,
         child: FittedBox(
-            child: Text('MORE DETAILS', style: AppThemes.detailsMoreText(width)),
+            child: Text('Chi tiết sản phẩm', style: AppThemes.detailsMoreText(width)),
       ),)
     );
   }
@@ -278,7 +296,7 @@ class details extends State<DetailsBody> {
         width: width,
         height: height / 8,
         child: Text(
-            "description",
+            "Mô tả",
             style: AppThemes.detailsProductDescriptions),
       ),
     );

@@ -6,13 +6,15 @@ class User {
   String email;
   String password;
   String userPhoto;
+  String address;
 
   User({
     required this.uid,
     required this.userName,
     required this.email,
     required this.password,
-    required this.userPhoto
+    required this.userPhoto,
+    required this.address
   });
 
   void setUser(User _user) {
@@ -21,6 +23,7 @@ class User {
     email = _user.email;
     password = _user.password;
     userPhoto = _user.userPhoto;
+    address = "";
   }
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -30,6 +33,7 @@ class User {
       email: json['email'] ?? '',
       password: json['password'] ?? '',
       userPhoto: json['userPhoto'] ?? '',
+      address: json['address'] ?? ''
     );
   }
 
@@ -39,7 +43,8 @@ class User {
       'userName': userName,
       'email': email,
       'password': password,
-      'userPhoto': userPhoto
+      'userPhoto': userPhoto,
+      'address': address
     };
   }
 

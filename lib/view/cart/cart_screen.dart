@@ -4,7 +4,7 @@ import '../../utils/constants.dart';
 import 'widget/app_bar.dart';
 import 'widget/body.dart';
 
-class MyBagScreen extends StatelessWidget {
+class MyCartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

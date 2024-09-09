@@ -19,8 +19,6 @@ class Cart {
     final _items = _cart.doc(uid).collection("items");
     final product = {
       "productId": productInfo.productId,
-      // "price": productInfo.price,
-      // "modelColor": "#${productInfo.modelColor.value.toRadixString(16).substring(2)}",
       "size": size,
       "quantity": quantity
     };
@@ -66,7 +64,7 @@ class Cart {
         yield  listCartItem;
       } catch (e) {
         print("Lấy sản phẩm trong giỏ hàng gặp lỗi: $e");
-        yield  [];
+        yield [];
       }
     }
   }

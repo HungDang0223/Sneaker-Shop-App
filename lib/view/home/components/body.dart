@@ -68,7 +68,7 @@ class _BodyState extends State<Body> {
               controller: _searchEdittingController,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search, size: 20,),
-                hintText: "Search Products",
+                hintText: "Tìm sản phẩm",
                 hintStyle: AppThemes.hintText(w),
                 border: InputBorder.none,
                 suffixIcon: IconButton(
@@ -244,7 +244,7 @@ class _BodyState extends State<Body> {
                   },
                 );
               } else {
-                return Center(child: Text("No Data"),);
+                return Center(child: Text("Không có dữ liệu!"),);
               }
             },
           ),
@@ -261,12 +261,12 @@ class _BodyState extends State<Body> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Text("New Product", style: AppThemes.homeMoreText(width)),
+          Text("Sản phẩm mới", style: AppThemes.homeMoreText(width)),
           Spacer(),
           Row(
             children: [
               Text(
-                "Show all",
+                "Xem tất cả",
                 style: AppThemes.hightlightText(width),
               ),
               IconButton(
@@ -346,7 +346,7 @@ class _BodyState extends State<Body> {
                                           alignment: Alignment.center,
                                           width: width / 6,
                                           color: Colors.red,
-                                          child: Text("NEW",
+                                          child: Text("Mới",
                                               style:
                                                   AppThemes.homeGridNewText(width)),
                                         )))),
@@ -415,7 +415,7 @@ class _BodyState extends State<Body> {
                 );
               });
           } else {
-            return Center(child: Text("No Data"),);
+            return Center(child: Text("Không có dữ liệu!"),);
           }
         },
       ),

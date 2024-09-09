@@ -58,10 +58,10 @@ class AppThemes {
   static TextStyle detailsMoreText(double w) => TextStyle(
       fontWeight: FontWeight.w500,
       decoration: TextDecoration.underline,
+      color: Colors.blue,
       height: 1);
   static TextStyle detailsProductPrice(double w) => TextStyle(
       fontWeight: FontWeight.w500,
-      decoration: TextDecoration.underline,
       height: 1);
   static TextStyle detailsProductDescriptions =
       TextStyle(color: Colors.grey[600]);

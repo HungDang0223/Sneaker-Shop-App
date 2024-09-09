@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:sneaker_shop_app/controller/navigator_controller.dart';
 
 import '../utils/constants.dart';
-import 'bag/bag_screen.dart';
+import 'cart/cart_screen.dart';
 import 'home/home_screen.dart';
 import 'profile/profile_screen.dart';
 
@@ -20,7 +20,7 @@ class _MainNavigatorState extends State<MainNavigator> {
 
   List<Widget> _screen = [
     HomeScreen(),
-    MyBagScreen(),
+    MyCartScreen(),
     Profile(),
   ];
 

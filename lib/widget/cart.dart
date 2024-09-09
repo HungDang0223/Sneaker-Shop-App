@@ -1,8 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sneaker_shop_app/view/bag/bag_screen.dart';
-import 'package:sneaker_shop_app/view/bag/widget/body.dart';
 
 import '../controller/navigator_controller.dart';
 

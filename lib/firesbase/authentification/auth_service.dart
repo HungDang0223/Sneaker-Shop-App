@@ -20,7 +20,8 @@ class AuthService {
         "username": res.user!.displayName ?? "so_"+res.user!.uid,
         "email": email,
         "password": password,
-        "userPhoto": res.user?.photoURL ?? ""
+        "userPhoto": res.user?.photoURL ?? "",
+        "address": ""
       };
       // if user is not exist, add new user to fire store
       QuerySnapshot query = await _user.where("email", isEqualTo: email).get();
@@ -75,7 +76,8 @@ class AuthService {
         "uid": user.uid,
         "userName": user.displayName ?? "so_${user.uid}",
         "email": user.email,
-        "userPhoto": user.photoURL
+        "userPhoto": user.photoURL,
+        "address": ""
       };
       _prefs.setString("uid", user.uid);
       await _user.doc(user.uid).set(data);
